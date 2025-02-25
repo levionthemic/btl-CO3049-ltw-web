@@ -3,8 +3,9 @@
 Assignment of Web Programming - CO3049 in Semester 242.
 
 ## Tech stack
-- ReactJs 19 + Material UI 6 for web.
+- ReactJs 19 + TailwindCSS v3 for web.
 - Pure PHP for webAPIs.
+- MySQL for database.
 
 ## Members
 - Hồ Trần Ngọc Liêm - 2211835.
