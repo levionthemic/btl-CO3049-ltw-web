@@ -6,7 +6,10 @@ export default {
   ],
   theme: {
     extend: {
-      backgroundColor: {
+      fontFamily: {
+        'Nunito Sans': ['Nunito Sans', 'sans-serif']
+      },
+      colors: {
         mainColor1: {
           100: '#FFE8D9',
           200: '#FED0B3',
