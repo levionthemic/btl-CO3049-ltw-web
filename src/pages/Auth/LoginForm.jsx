@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { FaCheckCircle } from 'react-icons/fa'
 
 function LoginForm() {
   return (
@@ -10,6 +11,16 @@ function LoginForm() {
           </div>
 
           <form action="" className="mb-12">
+            <div className='mb-6 bg-[#E7FFEB] w-full h-fit rounded-lg p-3 flex gap-3'>
+              <div className='relative top-3'>
+                <FaCheckCircle />
+              </div>
+              <div>
+                <div className='font-semibold'>Thành công!</div>
+                <div className="text-sm text-justify">Xác thực OTP thành công! Mật khẩu của bạn đã được thiết lập thành: <b>123456</b>. Vui lòng đăng nhập để tiếp tục!</div>
+              </div>
+            </div>
+
             <div className="mb-6">
               <label htmlFor="email" className="block font-bold">Email</label>
               <input
@@ -31,7 +42,7 @@ function LoginForm() {
                 className="border rounded-full border-mainColor1-400 drop-shadow-lg w-full my-2 px-4 py-1.5 placeholder:text-sm placeholder:opacity-40 focus:outline-none focus:border-[2px] focus:border-mainColor1-400"
               />
               <div className="text-right">
-                <Link to={'#'} className="text-sm text-mainColor1-400 inline-block hover:scale-90 hover:ease-in-out hover:duration-300 transition-transform">Quên mật khẩu?</Link>
+                <Link to={'/forgot-password'} className="text-sm text-mainColor1-400 inline-block hover:scale-90 hover:ease-in-out hover:duration-300 transition-transform">Quên mật khẩu?</Link>
               </div>
             </div>
 
