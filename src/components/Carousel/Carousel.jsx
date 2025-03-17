@@ -49,10 +49,6 @@ function Carousel({ slides }) {
         className="absolute right-5 top-1/2 transform -translate-y-1/2 text-white text-6xl z-10 bg-black/50 p-2 rounded-full"
         onClick={nextSlide}
       />
-      {/* 
-      <h2 className=" absolute left-[15vw] bottom-[30vh] text-6xl font-bold text-mainColor1-500 whitespace-pre-line">
-        Thư giãn, tận hưởng và tạo nên những kỷ niệm đẹp
-      </h2> */}
 
       <div
         className="flex flex-col
