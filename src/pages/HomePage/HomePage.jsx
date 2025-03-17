@@ -5,6 +5,7 @@ import Carousel from "~/components/Carousel/Carousel";
 
 import { TbHandFingerRight } from "react-icons/tb";
 import HomepageCard from "~/components/Homepage_cards/HomepageCard.component.jsx";
+import HomepageComments from "~/components/Homepage_comments/HomepageComments.component.jsx";
 
 function HomePage() {
   let slides = ["carousel_1.jpg", "carousel_2.jpg", "carousel_3.jpg"];
@@ -13,7 +14,7 @@ function HomePage() {
     {
       imageSrc: "hp_card_1.jpg",
       title: "Gym",
-      description: "Dụng cụ tập thể hình",
+      description: "Đi nghỉ nhưng không quên leg day",
     },
     {
       imageSrc: "hp_card_2.jpg",
@@ -32,13 +33,33 @@ function HomePage() {
     },
   ];
 
+  let comments = [
+    {
+      userIcon: "hp_icon_1.webp",
+      rating: 5,
+      comment:
+        "I had the best time of my life at iHotel. The staff was so friendly and the amenities were top-notch. They have the best plastic chair I've ever seen in my life. Feeling so motivated!",
+    },
+    {
+      userIcon: "hp_icon_2.jpg",
+      rating: 4,
+      comment:
+        "The room was clean and the view was amazing. OMG is that a slide in the room?!",
+    },
+    {
+      userIcon: "hp_icon_3.jpg",
+      rating: 5,
+      comment:
+        "Would invite my friends from Nigeria to come here. The service was excellent and the food was delicious.",
+    },
+  ];
   return (
     <>
       <Header />
       <Carousel slides={slides} />
 
       {/* Quick booking section */}
-      <section id="quickBooking">
+      <section id="homepage__quickBooking">
         <div className="container mx-auto py-20">
           <div className="text-center">
             <h2 className="text-4xl font-bold text-mainColor1-500">
@@ -62,7 +83,8 @@ function HomePage() {
         </div>
       </section>
 
-      <section id="utilities">
+      {/* Ultility section */}
+      <section id="homepage__utilities">
         <div className="flex bg-mainColor1-200 p-4 gap-4 justify-between">
           {utilities.map((util, index) => (
             <HomepageCard
@@ -75,6 +97,44 @@ function HomePage() {
         </div>
       </section>
 
+      {/* Comments section */}
+      <section id="homepage__comments">
+        <div className="container py-20">
+          <h2 className="text-4xl font-bold text-mainColor1-500 text-center">
+            What our guests are saying
+          </h2>
+          <div className="flex flex-col gap-8 mt-8 mx-[10vw]">
+            {comments.map((comment, index) => (
+              <HomepageComments
+                key={index}
+                userIcon={comment.userIcon}
+                rating={comment.rating}
+                comment={comment.comment}
+                isLeft2Right={index % 2 === 0}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Address section*/}
+      <section id="homepage__address">
+        <div className="container mx-auto py-15">
+          <h2 className="text-4xl font-bold text-mainColor1-500 text-center">
+            Where to find us?
+          </h2>
+          <div className="w-full h-[50vh] mt-8  border-[10px] border-mainColor1-500">
+            <iframe
+              title="Google Map"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.835434509374!2d144.9537353153169!3d-37.81627997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577d9f0b1a0b1b!2sFederation%20Square!5e0!3m2!1sen!2sau!4v1611816753437!5m2!1sen!2sau"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              className="w-full h-full"
+            ></iframe>
+          </div>
+        </div>
+      </section>
       <Footer />
     </>
   );
