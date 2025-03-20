@@ -1,26 +1,30 @@
 import React from "react";
+import Rating from "~/components/Rating/Rating.component.jsx";
 
 const HomepageComments = ({ userIcon, rating, comment, isLeft2Right }) => {
   return (
     <div
-      className={`homepage-comments flex ${
-        isLeft2Right ? "flex-row" : "flex-row-reverse"
-      }  overflow-hidden w-full bg-gray-50 rounded-2xl `}
+      className={`homepage-comments flex flex-col lg:flex ${
+        isLeft2Right ? "lg:flex-row" : "lg:flex-row-reverse"
+      } justify-evenly overflow-hidden w-full bg-gray-50 rounded-2xl `}
     >
-      <div className="left-section p-4">
+      <div className="left-section p-4 min-w-[15vw] flex flex-col items-center">
         <img
           src={userIcon}
           alt="User Icon"
-          style={{ aspectRatio: "1 / 1" }}
-          className="user-icon object-cover w-[10rem] h-[10rem] rounded-full"
+          className="user-icon w-20 h-20 
+          sm:w-24 sm:h-24 
+          md:w-32 md:h-32 lg:w-40 lg:h-40 aspect-square object-cover rounded-full"
         />
-        <div className="rating-bar mt-4">
-          <progress value={rating} max="5" className="progress-bar"></progress>
-          <span className="rating-text ml-2">{rating}/5</span>
-        </div>
+
+        <Rating rating={rating} />
       </div>
-      <div className="right-section p-4">
-        <p className="comment text-lg">{comment}</p>
+      <div className="right-section p-4 flex items-center">
+        <p
+          className={`comment text-lg ${isLeft2Right ? "text-left" : "text-right"}`}
+        >
+          {comment}
+        </p>
       </div>
     </div>
   );

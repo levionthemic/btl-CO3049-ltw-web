@@ -11,14 +11,16 @@ function ContactPage() {
         style={{ backgroundImage: "url('reception.webp')" }}
       >
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white text-center">
-          <div>
-            <h1 className="text-5xl font-bold mb-4">Liên hệ với iHotel</h1>
+          <div className="absolute bottom-auto md:bottom-auto  max-w-4xl mx-auto p-8">
+            <h1 className=" text-2xl lg:text-5xl font-bold mb-4">
+              Liên hệ với iHotel
+            </h1>
 
-            <span className="text-xl mx-auto block">
+            <span className=" text-md lg:text-xl mx-auto block">
               Hãy kết nối với chúng tôi để được tư vấn và hỗ trợ.
             </span>
 
-            <span className="text-xl  mx-auto block">
+            <span className="text-md lg:text-xl mx-auto block">
               Liên hệ với chúng tôi để hỏi đáp, đặt phòng, tổ chức hội nghị,
               hoặc ứng tuyển việc làm.
             </span>
@@ -70,10 +72,10 @@ function ContactPage() {
       {/* Contact Address */}
       <section
         id="contact__address"
-        className="mt-4 h-[50vh] my-8 flex justify-between"
+        className="mt-4 h-auto lg:h-[50vh] my-8 flex flex-col lg:flex-row justify-between"
       >
         {/* Contact Details */}
-        <div className="w-1/3 bg-mainColor2-50 text-black items-center  py-16 px-8 text-center">
+        <div className="w-full lg:w-1/3 bg-mainColor2-50 text-black items-center  py-6 lg:py-16 px-8 text-center">
           <h2 className="text-3xl font-semibold">Contact Information</h2>
           <p className="mt-4 ">📍 123 Luxury St, Paradise City, Country</p>
           <p className="">📞 +123 456 789</p>
@@ -81,7 +83,7 @@ function ContactPage() {
         </div>
 
         {/* Google Map */}
-        <div className="w-2/3">
+        <div className="w-full h-[60vh] lg:w-2/3 lg:h-auto">
           <iframe
             className="w-full h-full"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.835434509374!2d144.9537353153169!3d-37.81627997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577d1f0f9b1a1e3!2s123%20Luxury%20St%2C%20Paradise%20City%2C%20Country!5e0!3m2!1sen!2sus!4v1697041234567!5m2!1sen!2sus"

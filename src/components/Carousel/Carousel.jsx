@@ -2,8 +2,17 @@ import React, { useState, useEffect } from "react";
 import { FaArrowCircleLeft } from "react-icons/fa";
 import { FaArrowCircleRight } from "react-icons/fa";
 
-function Carousel({ slides }) {
+function Carousel({ landscapeSlides, portraitSlides }) {
   const [current, setCurrent] = useState(0); // Ensure it starts at 0
+  const [slides, setSlides] = useState([]);
+
+  useEffect(() => {
+    if (window.innerWidth > window.innerHeight) {
+      setSlides(landscapeSlides); // Landscape mode
+    } else {
+      setSlides(portraitSlides); // Portrait mode
+    }
+  });
 
   useEffect(() => {
     // Auto slide
@@ -24,9 +33,12 @@ function Carousel({ slides }) {
 
   return (
     <>
-      <div className="overflow-hidden relative w-full h-[90vh] flex items-center justify-center">
+      <div
+        className="overflow-hidden relative flex items-center justify-center
+      w-full h-[90vh] "
+      >
         <div
-          className="flex transition-transform duration-500 ease-out bg-mainColor1-500"
+          className="flex transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${current * 100}%)` }}
         >
           {slides.map((slide, index) => (
@@ -34,7 +46,7 @@ function Carousel({ slides }) {
               key={index}
               src={slide}
               alt={`Slide ${index + 1}`}
-              className="w-full h-full object-cover flex-shrink-0"
+              className="w-full h-full object-cover flex-shrink-0 max-h-[80vh]"
             />
           ))}
         </div>
@@ -52,7 +64,7 @@ function Carousel({ slides }) {
 
       <div
         className="flex flex-col
-      absolute left-[10vw] bottom-[20vh] text-6xl font-bold text-white"
+      absolute left-[5vw] lg:left-[10vw] bottom-[20vh] text-2xl md:text-4xl lg:text-6xl font-bold text-white"
       >
         <span>Thư giãn, tận hưởng</span>
         <span>và tạo nên những kỷ niệm đẹp</span>

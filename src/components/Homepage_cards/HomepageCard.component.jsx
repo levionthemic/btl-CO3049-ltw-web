@@ -2,11 +2,11 @@ import React from "react";
 
 const HomepageCard = ({ imageSrc, title, description }) => {
   return (
-    <div className="homepage-card p-2 rounded-lg bg-mainColor1-400 w-[30vw] h-[50vh] overflow-hidden">
+    <div className="homepage-card p-4 rounded-lg bg-mainColor1-400 w-full h-auto overflow-hidden">
       <img
         src={imageSrc}
         alt={title}
-        className="homepage-card-image object-cover w-full h-2/3"
+        className="homepage-card-image object-cover w-full h-3/5 rounded-lg"
       />
       <h3
         className="homepage-card-title 
@@ -16,7 +16,7 @@ const HomepageCard = ({ imageSrc, title, description }) => {
       </h3>
       <p
         className="homepage-card-description
-      mt-3 text-lg text-center"
+      mt-3 mb-1 text-lg text-center"
       >
         {description}
       </p>

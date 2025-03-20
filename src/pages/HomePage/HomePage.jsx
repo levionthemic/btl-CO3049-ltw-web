@@ -8,7 +8,12 @@ import HomepageCard from "~/components/Homepage_cards/HomepageCard.component.jsx
 import HomepageComments from "~/components/Homepage_comments/HomepageComments.component.jsx";
 
 function HomePage() {
-  let slides = ["carousel_1.jpg", "carousel_2.jpg", "carousel_3.jpg"];
+  let landscapeSlides = ["carousel_1.webp", "carousel_2.jpg", "carousel_3.jpg"];
+  let portraitSlides = [
+    "carousel_portrait_1.jpg",
+    "carousel_portrait_2.jpg",
+    "carousel_portrait_3.avif",
+  ];
 
   let utilities = [
     {
@@ -53,10 +58,14 @@ function HomePage() {
         "Would invite my friends from Nigeria to come here. The service was excellent and the food was delicious.",
     },
   ];
+
   return (
     <>
       <Header />
-      <Carousel slides={slides} />
+      <Carousel
+        landscapeSlides={landscapeSlides}
+        portraitSlides={portraitSlides}
+      />
 
       {/* Quick booking section */}
       <section id="homepage__quickBooking">
@@ -85,7 +94,7 @@ function HomePage() {
 
       {/* Ultility section */}
       <section id="homepage__utilities">
-        <div className="flex bg-mainColor1-200 p-4 gap-4 justify-between">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 bg-mainColor1-200 p-6">
           {utilities.map((util, index) => (
             <HomepageCard
               key={index}
