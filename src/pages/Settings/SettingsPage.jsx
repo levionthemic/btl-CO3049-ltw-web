@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const SettingsPage = () => {
@@ -11,6 +11,29 @@ const SettingsPage = () => {
   });
 
   const [isSubmited, setIsSubmited] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost/public/api/settings/latest")
+      .then((response) => {
+        const data = response.data;
+        setFormData({
+          hotelName: data.hotel_name || "",
+          phoneNumber: data.phone_number || "",
+          address: data.address || "",
+          logo: null,
+          currentLogoPath: data.logo_path
+            ? `http://localhost/public/uploads/${data.logo_path}`
+            : "",
+        });
+      })
+      .catch((error) => {
+        console.error(
+          "Error fetching settings:",
+          error.response?.data || error.message
+        );
+      });
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
