@@ -1,7 +1,44 @@
+import { useState } from "react";
 import Header from "~/components/Header/Header";
 import Footer from "~/components/Footer/Footer";
+import axios from "axios";
 
 function ContactPage() {
+  const [isSubmited, setIsSubmited] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost/public/api/contacts",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setIsSubmited(true);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+
   return (
     <>
       <Header></Header>
@@ -27,46 +64,76 @@ function ContactPage() {
           </div>
         </div>
       </div>
-
       {/* Contact Form */}
       <section className="w-full py-16 px-8 max-w-3xl mx-auto">
-        <h2 className="text-3xl font-semibold text-gray-800 text-center">
-          Send Us a Message
-        </h2>
-        <p className="text-gray-600 text-center mt-2">
-          We’ll get back to you as soon as possible.
-        </p>
-        <form className=" mt-6 bg-mainColor1-200 p-6 rounded-lg shadow-lg">
-          <div className="mb-4">
-            <label className="block text-gray-700 font-semibold">Name</label>
-            <input
-              type="text"
-              className="w-full p-2 border border-gray-300 rounded"
-              placeholder="Your Name"
-            />
+        {isSubmited ? (
+          <div className="text-center">
+            <h2 className="text-3xl font-semibold text-gray-800">Thank You!</h2>
+            <p className="text-gray-600 mt-2">
+              Your message has been successfully sent. We will get back to you
+              shortly.
+            </p>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-semibold">Email</label>
-            <input
-              type="email"
-              className="w-full p-2 border border-gray-300 rounded"
-              placeholder="Your Email"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-semibold">Message</label>
-            <textarea
-              className="w-full p-2 border border-gray-300 rounded"
-              placeholder="Your Message"
-            ></textarea>
-          </div>
-          <button
-            type="submit"
-            className="bg-mainColor1-800 text-white px-4 py-2 rounded hover:bg-mainColor1-900 transition"
-          >
-            Send Message
-          </button>
-        </form>
+        ) : (
+          <>
+            <h2 className="text-3xl font-semibold text-gray-800 text-center">
+              Send Us a Message
+            </h2>
+            <p className="text-gray-600 text-center mt-2">
+              We’ll get back to you as soon as possible.
+            </p>
+
+            <form
+              onSubmit={handleSubmit}
+              className="mt-6 bg-mainColor1-200 p-6 rounded-lg shadow-lg"
+            >
+              <div className="mb-4">
+                <label className="block text-gray-700 font-semibold">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                  placeholder="Your Name"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-semibold">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                  placeholder="Your Email"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-semibold">
+                  Message
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                  placeholder="Your Message"
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                className="bg-mainColor1-800 text-white px-4 py-2 rounded hover:bg-mainColor1-900 transition"
+              >
+                Send Message
+              </button>
+            </form>
+          </>
+        )}
       </section>
 
       {/* Contact Address */}
@@ -92,7 +159,6 @@ function ContactPage() {
           ></iframe>
         </div>
       </section>
-
       <section className="bg-mainColor1-200 py-16 px-8 flex items-center justify-center">
         <div className=" text-center">
           <p className="text-2xl md:text-3xl font-semibold text-gray-700 italic">
@@ -103,7 +169,6 @@ function ContactPage() {
           </p>
         </div>
       </section>
-
       <Footer></Footer>
     </>
   );
