@@ -21,7 +21,7 @@ const HomepageComments = ({ userIcon, rating, comment, isLeft2Right }) => {
       </div>
       <div className="right-section p-4 flex items-center">
         <p
-          className={`comment text-lg ${isLeft2Right ? "text-left" : "text-right"}`}
+          className={`comment text-lg text-justify lg:${isLeft2Right ? "text-left" : "text-right"}`}
         >
           {comment}
         </p>

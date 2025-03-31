@@ -23,11 +23,11 @@ function HomePage() {
     },
     {
       imageSrc: "hp_card_2.jpg",
-      title: "Beach",
+      title: "Bãi tắm",
       description: "Bãi biển riêng tư",
     },
     {
-      imageSrc: "hp_card_3.jpg",
+      imageSrc: "hp_card_5.jpg",
       title: "Phòng riêng tư",
       description: "Không gian riêng tư, yên tĩnh",
     },
@@ -48,8 +48,7 @@ function HomePage() {
     {
       userIcon: "hp_icon_2.jpg",
       rating: 4,
-      comment:
-        "The room was clean and the view was amazing. OMG is that a slide in the room?!",
+      comment: "The room was clean and the view was amazing!",
     },
     {
       userIcon: "hp_icon_3.jpg",
@@ -72,12 +71,12 @@ function HomePage() {
         <div className="container mx-auto py-20">
           <div className="text-center">
             <h2 className="text-4xl font-bold text-mainColor1-500">
-              Dreaming of warmer days? Your stay starts here.
+              Kỳ nghỉ của bạn bắt đầu từ đây.
             </h2>
             <h3 className="text-lg text-gray-500 mt-4">
-              {" "}
-              Your warm-weather escape is closer than you think. Sun-soaked
-              days, poolside views, and unforgettable moments await with iHotel
+              Kỳ nghỉ trong mơ của bạn chỉ cách một bước chân! Hãy tận hưởng
+              không gian tuyệt vời, thư giãn bên hồ bơi ngoài trời và lưu giữ
+              những khoảnh khắc đáng nhớ tại iHotel.{" "}
             </h3>
             <div className="flex text-4xl mt-8 justify-center items-center">
               <TbHandFingerRight />
@@ -110,7 +109,7 @@ function HomePage() {
       <section id="homepage__comments">
         <div className="container py-20">
           <h2 className="text-4xl font-bold text-mainColor1-500 text-center">
-            What our guests are saying
+            Cảm nghĩ của khách hàng chúng tôi
           </h2>
           <div className="flex flex-col gap-8 mt-8 mx-[10vw]">
             {comments.map((comment, index) => (
@@ -130,12 +129,12 @@ function HomePage() {
       <section id="homepage__address">
         <div className="container mx-auto py-15">
           <h2 className="text-4xl font-bold text-mainColor1-500 text-center">
-            Where to find us?
+            Tìm chúng tôi ở đâu?
           </h2>
           <div className="w-full h-[50vh] mt-8  border-[10px] border-mainColor1-500">
             <iframe
               title="Google Map"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.835434509374!2d144.9537353153169!3d-37.81627997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577d9f0b1a0b1b!2sFederation%20Square!5e0!3m2!1sen!2sau!4v1611816753437!5m2!1sen!2sau"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.835434509374!2d144.9537353153169!3d-37.81627997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577d9f0b1a0b1b!2sFederation%20Square!5e0!3m2!1svi!2s!4v1611816753437!5m2!1svi!2s"
               style={{ border: 0 }}
               allowFullScreen=""
               loading="lazy"
