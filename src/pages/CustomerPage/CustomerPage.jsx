@@ -1,55 +1,55 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 const CustomerPage = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState([])
 
   useEffect(() => {
     // Fetch data from the API
     const fetchContacts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost/public/api/contacts"
-        );
-        alert(JSON.stringify(response.data));
-        setContacts(response.data);
+          'http://localhost/public/api/contacts'
+        )
+        alert(JSON.stringify(response.data))
+        setContacts(response.data)
       } catch (error) {
-        console.error("Error fetching contacts:", error);
+        console.error('Error fetching contacts:', error)
       }
-    };
+    }
 
-    fetchContacts();
-  }, []);
+    fetchContacts()
+  }, [])
 
   const handleMarkAsRead = async (id) => {
     try {
       // Update the status to "read"
       await axios.put(`http://localhost/public/api/contacts/${id}`, {
-        status: "read",
-      });
+        status: 'read'
+      })
       // Update the local state
       setContacts((prevContacts) =>
         prevContacts.map((contact) =>
-          contact.id === id ? { ...contact, status: "read" } : contact
+          contact.id === id ? { ...contact, status: 'read' } : contact
         )
-      );
+      )
     } catch (error) {
-      console.error("Error updating contact status:", error);
+      console.error('Error updating contact status:', error)
     }
-  };
+  }
 
   const handleDelete = async (id) => {
     try {
       // Delete the contact
-      await axios.delete(`http://localhost/public/api/contacts/${id}`);
+      await axios.delete(`http://localhost/public/api/contacts/${id}`)
       // Update the local state
       setContacts((prevContacts) =>
         prevContacts.filter((contact) => contact.id !== id)
-      );
+      )
     } catch (error) {
-      console.error("Error deleting contact:", error);
+      console.error('Error deleting contact:', error)
     }
-  };
+  }
 
   return (
     <div className="p-6">
@@ -82,7 +82,7 @@ const CustomerPage = () => {
             {contacts.map((contact, index) => (
               <tr
                 key={contact.id}
-                className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
               >
                 <td className="border border-gray-300 px-4 py-2">
                   {contact.name}
@@ -97,7 +97,7 @@ const CustomerPage = () => {
                   {contact.status}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {contact.status === "unread" && (
+                  {contact.status === 'unread' && (
                     <button
                       onClick={() => handleMarkAsRead(contact.id)}
                       className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
@@ -105,7 +105,7 @@ const CustomerPage = () => {
                       Mark as Read
                     </button>
                   )}
-                  {contact.status === "read" && (
+                  {contact.status === 'read' && (
                     <button
                       onClick={() => handleMarkAsResponded(contact.id)}
                       className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
@@ -128,7 +128,7 @@ const CustomerPage = () => {
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CustomerPage;
+export default CustomerPage

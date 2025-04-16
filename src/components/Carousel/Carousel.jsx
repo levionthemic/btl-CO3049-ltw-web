@@ -1,35 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { FaArrowCircleLeft } from "react-icons/fa";
-import { FaArrowCircleRight } from "react-icons/fa";
+/* eslint-disable react/prop-types */
+import React, { useState, useEffect } from 'react'
+import { FaArrowCircleLeft } from 'react-icons/fa'
+import { FaArrowCircleRight } from 'react-icons/fa'
 
 function Carousel({ landscapeSlides, portraitSlides }) {
-  const [current, setCurrent] = useState(0); // Ensure it starts at 0
-  const [slides, setSlides] = useState([]);
+  const [current, setCurrent] = useState(0) // Ensure it starts at 0
+  const [slides, setSlides] = useState([])
 
   useEffect(() => {
     if (window.innerWidth > window.innerHeight) {
-      setSlides(landscapeSlides); // Landscape mode
+      setSlides(landscapeSlides) // Landscape mode
     } else {
-      setSlides(portraitSlides); // Portrait mode
+      setSlides(portraitSlides) // Portrait mode
     }
-  });
+  })
 
   useEffect(() => {
     // Auto slide
     const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 3000); //Set time here
+      setCurrent((prev) => (prev + 1) % slides.length)
+    }, 3000) //Set time here
 
-    return () => clearInterval(interval);
-  }, [slides.length]);
+    return () => clearInterval(interval)
+  }, [slides.length])
 
   const previousSlide = () => {
-    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
+    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1))
+  }
 
   const nextSlide = () => {
-    setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  };
+    setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1))
+  }
 
   return (
     <>
@@ -70,7 +71,7 @@ function Carousel({ landscapeSlides, portraitSlides }) {
         <span>và tạo nên những kỷ niệm đẹp</span>
       </div>
     </>
-  );
+  )
 }
 
-export default Carousel;
+export default Carousel
