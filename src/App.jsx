@@ -7,6 +7,8 @@ import ContactPage from '~/pages/ContactPage/ContactPage'
 import TestPage from './pages/Test/TestPage'
 import SettingsPage from './pages/Settings/SettingsPage'
 import CustomerPage from './pages/CustomerPage/CustomerPage'
+import AdminLayout from '~/components/Layout/AdminLayout'
+import Dashboard from '~/pages/Admin/Dashboard/Dashboard'
 function App() {
   return (
     <Routes>
@@ -18,6 +20,10 @@ function App() {
       <Route path="/test" element={<TestPage />}></Route>
       <Route path="/settings" element={<SettingsPage />}></Route>
       <Route path="/customer" element={<CustomerPage />}></Route>
+
+      <Route path='/admin' element={<AdminLayout />}>
+        <Route index element={<Dashboard />} />
+      </Route>
     </Routes>
   )
 }
