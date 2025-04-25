@@ -28,7 +28,7 @@ function LoginForm() {
                 name='email'
                 id="email"
                 placeholder="VD: example@gmail.com"
-                className="border rounded-full border-mainColor1-400 drop-shadow-lg w-full my-2 px-4 py-1.5 placeholder:text-sm placeholder:opacity-40 focus:outline-none focus:border-[2px] focus:border-mainColor1-400"
+                className="border rounded-full border-mainColor-400 drop-shadow-lg w-full my-2 px-4 py-1.5 placeholder:text-sm placeholder:opacity-40 focus:outline-none focus:border-[2px] focus:border-mainColor-400"
               />
             </div>
 
@@ -39,7 +39,7 @@ function LoginForm() {
                 name='password'
                 id="password"
                 placeholder="VD: abc123"
-                className="border rounded-full border-mainColor1-400 drop-shadow-lg w-full my-2 px-4 py-1.5 placeholder:text-sm placeholder:opacity-40 focus:outline-none focus:border-[2px] focus:border-mainColor1-400"
+                className="border rounded-full border-mainColor-400 drop-shadow-lg w-full my-2 px-4 py-1.5 placeholder:text-sm placeholder:opacity-40 focus:outline-none focus:border-[2px] focus:border-mainColor-400"
               />
               <div className="text-right">
                 <Link to={'/forgot-password'} className="text-sm text-mainColor1-400 inline-block hover:scale-90 hover:ease-in-out hover:duration-300 transition-transform">Quên mật khẩu?</Link>
@@ -47,7 +47,7 @@ function LoginForm() {
             </div>
 
             <div>
-              <button type="submit" className="w-full rounded-full bg-mainColor1-400 text-white text-xl font-bold uppercase py-2 hover:bg-mainColor1-500 hover:scale-95 hover:ease-in-out hover:duration-300 transition-all">Đăng nhập</button>
+              <button type="submit" className="w-full rounded-full bg-mainColor-400 text-white text-xl font-bold uppercase py-2 hover:bg-mainColor-500 hover:scale-95 hover:ease-in-out hover:duration-300 transition-all">Đăng nhập</button>
             </div>
           </form>
 
