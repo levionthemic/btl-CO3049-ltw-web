@@ -40,8 +40,7 @@ function ContactPage() {
   }
 
   return (
-    <>
-      <Header></Header>
+    <div>
       {/* Hero Section */}
       <div
         className="relative h-[60vh] bg-cover bg-center"
@@ -169,8 +168,7 @@ function ContactPage() {
           </p>
         </div>
       </section>
-      <Footer></Footer>
-    </>
+    </div>
   )
 }
 

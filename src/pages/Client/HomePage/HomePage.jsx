@@ -59,7 +59,6 @@ function HomePage() {
 
   return (
     <>
-      <Header />
       <Carousel
         landscapeSlides={landscapeSlides}
         portraitSlides={portraitSlides}
@@ -142,7 +141,6 @@ function HomePage() {
           </div>
         </div>
       </section>
-      <Footer />
     </>
   )
 }
