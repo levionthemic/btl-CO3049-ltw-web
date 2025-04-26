@@ -7,8 +7,6 @@ import ContactPage from '~/pages/Client/ContactPage/ContactPage'
 import TestPage from './pages/Test/TestPage'
 import SettingsPage from './pages/Client/Settings/SettingsPage'
 import CustomerPage from './pages/Client/CustomerPage/CustomerPage'
-import AdminLayout from '~/components/Layout/AdminLayout'
-import Dashboard from '~/pages/Admin/Dashboard/Dashboard'
 import AboutUsPage from './pages/Client/AboutUsPage/AboutUsPage'
 import ClientLayout from './components/Layout/ClientLayout'
 import Page404 from './pages/Page404/Page404'
@@ -28,11 +26,6 @@ function App() {
         <Route path="customer" element={<CustomerPage />} />
 
         <Route path="about-us" element={<AboutUsPage />} />
-      </Route>
-
-
-      <Route path='/admin' element={<AdminLayout />}>
-        <Route index element={<Dashboard />} />
       </Route>
 
       <Route path="*" element={<Page404 />} />
