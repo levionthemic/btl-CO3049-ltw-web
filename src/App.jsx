@@ -12,6 +12,8 @@ import Dashboard from '~/pages/Admin/Dashboard/Dashboard'
 import AboutUsPage from './pages/Client/AboutUsPage/AboutUsPage'
 import ClientLayout from './components/Layout/ClientLayout'
 import Page404 from './pages/Page404/Page404'
+import ResetPassword from './pages/Auth/ResetPassword'
+import VerifyCode from './pages/Auth/VerifyCode'
 
 function App() {
   return (
@@ -19,6 +21,10 @@ function App() {
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/verify-code" element={<VerifyCode />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+
+      {/* Test page */}
       <Route path="/test" element={<TestPage />}></Route>
 
       <Route path='/' element={<ClientLayout />}>

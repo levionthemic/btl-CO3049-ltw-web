@@ -1,63 +1,53 @@
 import { Link } from 'react-router-dom'
-import { FaCheckCircle } from 'react-icons/fa'
+import loginImage from '~/assets/login_form.jpg'
+import logo from '~/assets/logo.png'
 
 function LoginForm() {
   return (
-    <div className='w-[100vw] h-[100vh] bg-[url("~/assets/bg-auth.jpg")] bg-cover bg-no-repeat'>
-      <div className="bg-[#EAEAEA]/50 w-full h-full flex items-center justify-center">
-        <div className="w-[450px] h-fit rounded-2xl bg-white/95 px-12 py-4">
-          <div className="my-16 text-center uppercase text-3xl font-bold">
-            Đăng nhập
+    <div className='flex items-center justify-center w-[100vw] h-[100vh]'>
+      <div className="bg-white flex items-center h-[90%] w-[75%] ">
+        <div className='w-1/2 pr-20'>
+          <div className='flex justify-center mb-14'>
+            <img className=' w-32' src={logo} alt="Logo" />
           </div>
-
-          <form action="" className="mb-12">
-            <div className='mb-6 bg-[#E7FFEB] w-full h-fit rounded-lg p-3 flex gap-3'>
-              <div className='relative top-3'>
-                <FaCheckCircle />
-              </div>
-              <div>
-                <div className='font-semibold'>Thành công!</div>
-                <div className="text-sm text-justify">Xác thực OTP thành công! Mật khẩu của bạn đã được thiết lập thành: <b>123456</b>. Vui lòng đăng nhập để tiếp tục!</div>
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <label htmlFor="email" className="block font-bold">Email</label>
+          <div className='mb-6'>
+            <div className='text-4xl font-bold mb-1'>Login</div>
+            <p className='text-gray-500'>Login to access your Levi Account</p>
+          </div>
+          <form>
+            <div className='flex flex-col gap-2'>
+              <label htmlFor="email" className='font-semibold text-mainColor-700'>Email</label>
               <input
-                type="text"
-                name='email'
-                id="email"
-                placeholder="VD: example@gmail.com"
-                className="border rounded-full border-mainColor-400 drop-shadow-lg w-full my-2 px-4 py-1.5 placeholder:text-sm placeholder:opacity-40 focus:outline-none focus:border-[2px] focus:border-mainColor-400"
+                type="email" id="email" name="email" placeholder="Enter your email"
+                className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'
               />
             </div>
-
-            <div className="mb-12">
-              <label htmlFor="password" className="block font-bold">Mật khẩu</label>
-              <input
-                type="password"
-                name='password'
-                id="password"
-                placeholder="VD: abc123"
-                className="border rounded-full border-mainColor-400 drop-shadow-lg w-full my-2 px-4 py-1.5 placeholder:text-sm placeholder:opacity-40 focus:outline-none focus:border-[2px] focus:border-mainColor-400"
-              />
-              <div className="text-right">
-                <Link to={'/forgot-password'} className="text-sm text-mainColor1-400 inline-block hover:scale-90 hover:ease-in-out hover:duration-300 transition-transform">Quên mật khẩu?</Link>
+            <div className='flex flex-col gap-2 mt-3'>
+              <label htmlFor="password" className='font-semibold text-mainColor-700'>Password</label>
+              <input type="password" id="password" name="password" placeholder="Enter your password" className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 placeholder:!text-mainColor-200 outline-mainColor-600 rounded-md p-2 text-mainColor-800' />
+            </div>
+            <div className='mt-2 flex items-center justify-between'>
+              <div className='flex items-center gap-1'>
+                <input type="checkbox" id="remember" name="remember" value="remember"
+                  className="w-4 h-4"/>
+                <label className='text-sm font-semibold cursor-pointer' htmlFor="remember">Remember me</label>
               </div>
+              <Link to='/forgot-password' className='text-sm text-mainColor1-500 hover:scale-105
+              hover:duration-300 hover:ease-in-out transition-transform cursor-pointer'>Forgot password</Link>
             </div>
-
-            <div>
-              <button type="submit" className="w-full rounded-full bg-mainColor-400 text-white text-xl font-bold uppercase py-2 hover:bg-mainColor-500 hover:scale-95 hover:ease-in-out hover:duration-300 transition-all">Đăng nhập</button>
-            </div>
+            <button type="submit" className='bg-mainColor-500 text-white py-3 px-4 rounded w-full mt-8 hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all'>Login</button>
           </form>
-
-          <div className="text-xs flex items-center justify-center gap-1">
-            <span>Chưa có tài khoản?</span>
-            <Link to={'/register'} className="font-bold cursor-pointer hover:scale-90 hover:ease-in-out hover:duration-300 transition-transform">Đăng ký</Link>
+          <div className='mt-1 text-sm flex justify-center gap-1'>
+            <p>Don&apos;t have an account? </p>
+            <Link to="/register" className='text-mainColor1-500 hover:scale-105 hover:duration-300 hover:ease-in-out transition-transform block'>Register</Link>
           </div>
+        </div>
+        <div className="w-1/2 flex items-center justify-center h-full">
+          <img className='h-full w-full object-cover rounded-2xl' src={loginImage} alt="Logo" />
         </div>
       </div>
     </div>
+
   )
 }
 
