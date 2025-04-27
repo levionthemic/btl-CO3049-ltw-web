@@ -10,6 +10,7 @@ import CustomerPage from './pages/Client/CustomerPage/CustomerPage'
 import AboutUsPage from './pages/Client/AboutUsPage/AboutUsPage'
 import ClientLayout from './components/Layout/ClientLayout'
 import Page404 from './pages/Page404/Page404'
+import Account from './pages/Account/Account'
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
         <Route path="customer" element={<CustomerPage />} />
 
         <Route path="about-us" element={<AboutUsPage />} />
+
+        {/* Account Flow */}
+        <Route path="account" element={<Account />} />
       </Route>
 
       <Route path="*" element={<Page404 />} />
