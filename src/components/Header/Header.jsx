@@ -2,6 +2,11 @@ import clsx from 'clsx'
 import { SearchIcon } from 'lucide-react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import logo from '~/assets/logo.png'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
+import { useState } from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog'
+import { logoutUserAPI } from '~/apis'
 
 const menus = [
   {
@@ -35,6 +40,18 @@ function Header() {
   const navigate = useNavigate()
   const pathname = useLocation().pathname
 
+  const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')))
+
+  const [open, setOpen] = useState(false)
+
+  const handleLogout = () => {
+    logoutUserAPI().then(() => {
+      localStorage.removeItem('currentUser')
+      setCurrentUser(null)
+      navigate('/login')
+    })
+  }
+
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#F4EFE6] px-10 py-2">
       <div className="flex items-center gap-4 text-[#1C160C]">
@@ -67,20 +84,58 @@ function Header() {
             </Link>
           ))}
         </div>
-        <div className="flex gap-2">
-          <button
-            className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-mainColor-600 text-[#FFFFFF] text-sm font-bold leading-normal tracking-[0.015em] hover:scale-105 hover:duration-300 hover:ease-in-out transition-all"
-            onClick={() => navigate('/register')}
-          >
-            <span className="truncate">Sign Up</span>
-          </button>
-          <button
-            className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#F4EFE6] text-[#1C160C] text-sm font-bold leading-normal tracking-[0.015em] hover:scale-105 hover:duration-300 hover:ease-in-out transition-all"
-            onClick={() => navigate('/login')}
-          >
-            <span className="truncate">Log In</span>
-          </button>
-        </div>
+        {currentUser
+          ? <DropdownMenu open={open} onOpenChange={setOpen}>
+            <DropdownMenuTrigger asChild>
+              <div className='flex items-center gap-3 cursor-pointer hover:bg-gray-200 p-1.5 rounded-lg hover:duration-300 hover:ease-in-out transition-all'>
+                <Avatar>
+                  <AvatarImage src={currentUser?.avatar} />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <div className='flex items-center gap-1'>
+                  <div>Hello,</div>
+                  <div className='font-semibold'>{currentUser?.name || 'Ẩn danh'}</div>
+                </div>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem className='text-destructive hover:!bg-destructive/10 hover:!text-destructive cursor-pointer' onSelect={(event) => {event.preventDefault()}}>Logout</DropdownMenuItem>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Warning!</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure to log you out?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel onClick={() => setOpen(false)}>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          : <div className="flex gap-2">
+            <button
+              className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-mainColor-600 text-[#FFFFFF] text-sm font-bold leading-normal tracking-[0.015em] hover:scale-105 hover:duration-300 hover:ease-in-out transition-all"
+              onClick={() => navigate('/register')}
+            >
+              <span className="truncate">Sign Up</span>
+            </button>
+            <button
+              className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#F4EFE6] text-[#1C160C] text-sm font-bold leading-normal tracking-[0.015em] hover:scale-105 hover:duration-300 hover:ease-in-out transition-all"
+              onClick={() => navigate('/login')}
+            >
+              <span className="truncate">Log In</span>
+            </button>
+          </div>
+        }
+
       </div>
     </header>
   )
