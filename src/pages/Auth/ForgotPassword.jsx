@@ -1,56 +1,30 @@
+import logo from '~/assets/logo.png'
+import login_image from '~/assets/login_form.jpg'
 import { Link } from 'react-router-dom'
-import { FaInfoCircle } from 'react-icons/fa'
 
 function ForgotPassword() {
   return (
-    <div className='w-[100vw] h-[100vh] bg-[url("~/assets/bg-auth.jpg")] bg-cover bg-no-repeat'>
-      <div className="bg-[#EAEAEA]/50 w-full h-full flex items-center justify-center">
-        <div className="w-[450px] h-fit rounded-2xl bg-white/95 px-12 py-4">
-          <div className="my-12 text-center text-3xl font-bold">
-            Quên mật khẩu
+    <div className='flex items-center justify-center w-[100vw] h-[100vh]'>
+      <div className='flex w-[75%] h-[90%]'>
+        <div className='w-1/2 mr-20 pt-10'>
+          <div className='flex items-center justify-center mb-10'>
+            <img src={logo} alt="" className='w-32'/>
           </div>
-
-          <form action="" className="mb-12">
-            <div className="mb-2">
-              <label htmlFor="email" className="block font-bold">Nhập Email</label>
-              <input
-                type="text"
-                name='email'
-                id="email"
-                placeholder="VD: example@gmail.com"
-                className="border rounded-full border-mainColor1-400 drop-shadow-lg w-full my-2 px-4 py-1.5 placeholder:text-sm placeholder:opacity-40 focus:outline-none focus:border-[2px] focus:border-mainColor1-400"
-              />
+          <div className='mb-6'>
+            <div className='cursor-pointer hover:!scale-105 hover:duration-300 hover:text-mainColor-700 hover:font-semibold hover:ease-in-out transition-transform mb-4 text-mainColor-500'><Link to='/login'>&larr; Back to Login</Link> </div>
+            <div className='text-4xl font-bold mb-2'>Forgot your password?</div>
+            <p className='text-gray-500'>Don’t worry, happens to all of us. Enter your email below to recover your password</p>
+          </div>
+          <form action="">
+            <div className='flex flex-col gap-2 mb-8'>
+              <label htmlFor="email" className='font-semibold text-mainColor-700'>Email</label>
+              <input type="email" placeholder='Email' id='email' name='email' className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-8 00' />
             </div>
-
-            <div className='mb-6 bg-[#E8F8FF] w-full h-fit rounded-lg p-3 flex gap-3'>
-              <div className='relative top-3'>
-                <FaInfoCircle />
-              </div>
-              <div>
-                <div className='font-semibold'>Thông báo</div>
-                <div className="text-sm text-justify">Một mã xác thực 6 chữ số đã gửi đến email: ... Vui lòng kiểm tra email của bạn và nhập mã vào ô bên dưới!</div>
-              </div>
-            </div>
-
-            <div className="mb-12">
-              <label htmlFor="password" className="block font-bold">Nhập OTP</label>
-              <input
-                type="number"
-                name='password'
-                id="password"
-                placeholder="VD: abc123"
-                className="border rounded-full border-mainColor1-400 drop-shadow-lg w-[50%] my-2 px-4 py-1.5 placeholder:text-sm placeholder:opacity-40 focus:outline-none focus:border-[2px] focus:border-mainColor1-400"
-              />
-            </div>
-
-            <div>
-              <button type="submit" className="w-full rounded-full bg-mainColor1-400 text-white text-xl font-bold uppercase py-2 hover:bg-mainColor1-500 hover:scale-95 hover:ease-in-out hover:duration-300 transition-all">Lấy lại mật khẩu</button>
-            </div>
+            <button type="submit" className='bg-mainColor-500 text-white py-3 px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all'>Submit</button>
           </form>
-
-          <div className="text-xs flex items-center justify-center gap-1">
-            <Link to={'/login'} className="font-bold cursor-pointer hover:scale-90 hover:ease-in-out hover:duration-300 transition-transform">Đăng nhập</Link>
-          </div>
+        </div>
+        <div className='w-1/2 h-full'>
+          <img src={login_image} alt="" className='h-full w-full object-cover rounded-2xl' />
         </div>
       </div>
     </div>
