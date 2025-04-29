@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog'
 import { logoutUserAPI } from '~/apis'
+import { useAuth } from '~/contexts/AuthContext'
 
 const menus = [
   {
@@ -40,14 +41,13 @@ function Header() {
   const navigate = useNavigate()
   const pathname = useLocation().pathname
 
-  const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')))
+  const { currentUser, logout } = useAuth()
 
   const [open, setOpen] = useState(false)
 
   const handleLogout = () => {
     logoutUserAPI().then(() => {
-      localStorage.removeItem('currentUser')
-      setCurrentUser(null)
+      logout()
     })
   }
 
