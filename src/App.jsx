@@ -14,6 +14,7 @@ import Page404 from './pages/Page404/Page404'
 import Account from './pages/Account/Account'
 import ResetPassword from './pages/Auth/ResetPassword'
 import VerifyCode from './pages/Auth/VerifyCode'
+import FaqPage from './pages/Client/FaqPage/FaqPage'
 
 const PrivateRoute = ({ user }) => {
   if (!user) return <Navigate to='/login' replace={true} />
@@ -33,14 +34,18 @@ function App() {
       {/* Test page */}
       <Route path="/test" element={<TestPage />}></Route>
 
+      <Route path='/' element={<ClientLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="contact" element={<ContactPage />} />
+
+        <Route path="about-us" element={<AboutUsPage />} />
+        <Route path="faq" element={<FaqPage />} />
+      </Route>
+
       <Route element={<PrivateRoute user={currentUser} />}>
         <Route path='/' element={<ClientLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="contact" element={<ContactPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="customer" element={<CustomerPage />} />
-
-          <Route path="about-us" element={<AboutUsPage />} />
 
           {/* Account Flow */}
           <Route path="account" element={<Account />} />

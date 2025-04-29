@@ -48,7 +48,6 @@ function Header() {
     logoutUserAPI().then(() => {
       localStorage.removeItem('currentUser')
       setCurrentUser(null)
-      navigate('/login')
     })
   }
 
@@ -99,7 +98,7 @@ function Header() {
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
-              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem className='cursor-pointer' onClick={() => navigate('/account')}>Profile</DropdownMenuItem>
               <DropdownMenuSeparator />
               <AlertDialog>
                 <AlertDialogTrigger asChild>
