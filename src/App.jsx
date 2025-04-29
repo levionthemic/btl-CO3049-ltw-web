@@ -15,6 +15,7 @@ import Account from './pages/Account/Account'
 import ResetPassword from './pages/Auth/ResetPassword'
 import VerifyCode from './pages/Auth/VerifyCode'
 import FaqPage from './pages/Client/FaqPage/FaqPage'
+import { useState } from 'react'
 
 const PrivateRoute = ({ user }) => {
   if (!user) return <Navigate to='/login' replace={true} />
@@ -22,7 +23,7 @@ const PrivateRoute = ({ user }) => {
 }
 
 function App() {
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+  const [currentUser] = useState(JSON.parse(localStorage.getItem('currentUser')))
   return (
     <Routes>
       <Route path="/login" element={<LoginForm />} />

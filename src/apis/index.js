@@ -28,3 +28,12 @@ export const refreshTokenAPI = async () => {
   const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/auth/refresh-token`)
   return response
 }
+
+/**
+ * FAQ APIs
+ * @author levi
+ */
+export const fetchAllFaqsAPI = async () => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/faq`)
+  return response
+}
