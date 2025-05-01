@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   const setUser = (data) => {
-    localStorage.setItem('currentUser', data)
+    localStorage.setItem('currentUser', JSON.stringify(data))
     setCurrentUser(data)
   }
 

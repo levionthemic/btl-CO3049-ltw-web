@@ -5,8 +5,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs'
 import AccountTab from './Tabs/AccountTab'
 import HistoryTab from './Tabs/HistoryTab'
 import PaymentTab from './Tabs/PaymentTab'
+import { useAuth } from '~/contexts/AuthContext'
 
 function Account() {
+  const { currentUser } = useAuth()
+
   return (
     <div className="bg-gray-100/50 py-12">
       <div className='container mx-auto'>
@@ -25,8 +28,8 @@ function Account() {
                   <label htmlFor="upload-avatar" className='block p-1 rounded-full bg-mainColor1-600 cursor-pointer hover:bg-mainColor1-800 hover:duration-300 hover:ease-in-out transition-all'><Edit3Icon size={20} /></label>
                 </div>
               </div>
-              <div className="font-semibold text-xl">Ho Tran Ngoc Liem</div>
-              <div className="">example@gmail.com</div>
+              <div className="font-semibold text-xl">{currentUser.name}</div>
+              <div className="">{currentUser.email}</div>
             </div>
           </div>
         </div>
