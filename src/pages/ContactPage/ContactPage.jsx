@@ -4,6 +4,16 @@ import Footer from "~/components/Footer/Footer";
 import axios from "axios";
 
 function ContactPage() {
+  const sanitizeInput = (input) => {
+    if (!input) return "";
+    return input
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+      .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, "")
+      .replace(/javascript:/gi, "")
+      .replace(/on\w+="[^"]*"/gi, "")
+      .replace(/on\w+='[^']*'/gi, "");
+  };
+
   const [isSubmited, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -15,7 +25,7 @@ function ContactPage() {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: sanitizeInput(value),
     }));
   };
 
