@@ -35,7 +35,7 @@ function LoginForm() {
         loading: 'Login is in progress...',
         success: (res) => {
           if (!res.error) {
-            setUser(JSON.stringify(res.data.data.user))
+            setUser(res.data.data.user)
             navigate('/')
             return 'Login successfully!'
           }
