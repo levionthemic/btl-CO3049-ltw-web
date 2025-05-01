@@ -1,71 +1,71 @@
-import React from "react";
-import logo from "../../assets/logo.png";
+import logo from "~/assets/logo.png";
 
-function Footer() {
+const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Logo và mô tả */}
-          <div className="col-span-1 md:col-span-2">
-            <img src={logo} alt="Logo" className="h-12 w-auto mb-4" />
-            <p className="text-gray-300">
-              Chúng tôi cung cấp dịch vụ đặt phòng khách sạn chất lượng cao với
-              nhiều tiện ích và dịch vụ đa dạng. Hãy trải nghiệm sự thoải mái và
-              sang trọng tại khách sạn của chúng tôi.
-            </p>
+    <footer className="bg-mainColor-400 text-black py-10">
+      <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-5 gap-6">
+        {/* Logo + Social */}
+        <div className="space-y-4">
+          <div className="bg-white rounded-xl">
+            <img src={logo} alt="" />
           </div>
-
-          {/* Liên kết nhanh */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Liên kết nhanh</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  Đặt phòng
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  Tiện ích
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  Phòng nghỉ
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  Tin tức
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  Liên hệ
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Thông tin liên hệ */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Thông tin liên hệ</h3>
-            <ul className="space-y-2 text-gray-300">
-              <li>Địa chỉ: 123 Đường ABC, Quận XYZ</li>
-              <li>Điện thoại: (84) 123-456-789</li>
-              <li>Email: info@hotel.com</li>
-            </ul>
+          <div className="flex gap-3 text-xl text-gray-800">
+            <i className="fab fa-facebook-f"></i>
+            <i className="fab fa-twitter"></i>
+            <i className="fab fa-youtube"></i>
+            <i className="fab fa-instagram"></i>
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-          <p>&copy; 2025 Hotel Booking. All rights reserved.</p>
+        {/* Destinations */}
+        <div>
+          <h2 className="font-semibold mb-2">Our Destinations</h2>
+          <ul className="space-y-1 text-sm">
+            <li>Canada</li>
+            <li>Alaska</li>
+            <li>France</li>
+            <li>Iceland</li>
+          </ul>
+        </div>
+
+        {/* Activities */}
+        <div>
+          <h2 className="font-semibold mb-2">Our Activities</h2>
+          <ul className="space-y-1 text-sm">
+            <li>Northern Lights</li>
+            <li>Cruising & Sailing</li>
+            <li>Multi-activities</li>
+            <li>Kayaking</li>
+          </ul>
+        </div>
+
+        {/* Blogs */}
+        <div>
+          <h2 className="font-semibold mb-2">Travel Blogs</h2>
+          <ul className="space-y-1 text-sm">
+            <li>Bali Travel Guide</li>
+            <li>Sri Lanka Travel Guide</li>
+            <li>Peru Travel Guide</li>
+            <li>Bali Travel Guide</li>
+          </ul>
+        </div>
+
+        {/* About / Contact */}
+        <div>
+          <h2 className="font-semibold mb-2">About Us</h2>
+          <ul className="space-y-1 text-sm mb-4">
+            <li>Our Story</li>
+            <li>Work with us</li>
+          </ul>
+          <h2 className="font-semibold mb-2">Contact Us</h2>
+          <ul className="space-y-1 text-sm">
+            <li>Our Story</li>
+            <li>Work with us</li>
+          </ul>
         </div>
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;

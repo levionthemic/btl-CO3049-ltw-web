@@ -1,66 +1,64 @@
-import React from "react";
-import Header from "~/components/Header/Header";
-import Footer from "~/components/Footer/Footer";
-import Carousel from "~/components/Carousel/Carousel";
+import Header from '~/components/Header/Header'
+import Footer from '~/components/Footer/Footer'
+import Carousel from '~/components/Carousel/Carousel'
 
-import { TbHandFingerRight } from "react-icons/tb";
-import HomepageCard from "~/components/Homepage_cards/HomepageCard.component.jsx";
-import HomepageComments from "~/components/Homepage_comments/HomepageComments.component.jsx";
+import { TbHandFingerRight } from 'react-icons/tb'
+import HomepageCard from '~/components/Homepage_cards/HomepageCard.component.jsx'
+import HomepageComments from '~/components/Homepage_comments/HomepageComments.component.jsx'
 
 function HomePage() {
-  let landscapeSlides = ["carousel_1.webp", "carousel_2.jpg", "carousel_3.jpg"];
+  let landscapeSlides = ['carousel_1.webp', 'carousel_2.jpg', 'carousel_3.jpg']
   let portraitSlides = [
-    "carousel_portrait_1.jpg",
-    "carousel_portrait_2.jpg",
-    "carousel_portrait_3.avif",
-  ];
+    'carousel_portrait_1.jpg',
+    'carousel_portrait_2.jpg',
+    'carousel_portrait_3.avif'
+  ]
 
   let utilities = [
     {
-      imageSrc: "hp_card_1.jpg",
-      title: "Gym",
-      description: "Đi nghỉ nhưng không quên leg day",
+      imageSrc: 'hp_card_1.jpg',
+      title: 'Gym',
+      description: 'Đi nghỉ nhưng không quên leg day'
     },
     {
-      imageSrc: "hp_card_2.jpg",
-      title: "Bãi tắm",
-      description: "Bãi biển riêng tư",
+      imageSrc: 'hp_card_2.jpg',
+      title: 'Bãi tắm',
+      description: 'Bãi biển riêng tư'
     },
     {
-      imageSrc: "hp_card_5.jpg",
-      title: "Phòng riêng tư",
-      description: "Không gian riêng tư, yên tĩnh",
+      imageSrc: 'hp_card_5.jpg',
+      title: 'Phòng riêng tư',
+      description: 'Không gian riêng tư, yên tĩnh'
     },
     {
-      imageSrc: "hp_card_4.jpg",
-      title: "Buffet",
-      description: "Buffet sáng miễn phí",
-    },
-  ];
+      imageSrc: 'hp_card_4.jpg',
+      title: 'Buffet',
+      description: 'Buffet sáng miễn phí'
+    }
+  ]
 
   let comments = [
     {
-      userIcon: "hp_icon_1.webp",
+      userIcon: 'hp_icon_1.webp',
       rating: 5,
       comment:
-        "I had the best time of my life at iHotel. The staff was so friendly and the amenities were top-notch. They have the best plastic chair I've ever seen in my life. Feeling so motivated!",
+        'I had the best time of my life at iHotel. The staff was so friendly and the amenities were top-notch. They have the best plastic chair I\'ve ever seen in my life. Feeling so motivated!'
     },
     {
-      userIcon: "hp_icon_2.jpg",
+      userIcon: 'hp_icon_2.jpg',
       rating: 4,
-      comment: "The room was clean and the view was amazing!",
+      comment: 'The room was clean and the view was amazing!'
     },
     {
-      userIcon: "hp_icon_3.jpg",
+      userIcon: 'hp_icon_3.jpg',
       rating: 5,
       comment:
-        "Would invite my friends from Nigeria to come here. The service was excellent and the food was delicious.",
-    },
-  ];
+        'Would invite my friends from Nigeria to come here. The service was excellent and the food was delicious.'
+    }
+  ]
 
   return (
     <>
-      <Header />
       <Carousel
         landscapeSlides={landscapeSlides}
         portraitSlides={portraitSlides}
@@ -76,12 +74,12 @@ function HomePage() {
             <h3 className="text-lg text-gray-500 mt-4">
               Kỳ nghỉ trong mơ của bạn chỉ cách một bước chân! Hãy tận hưởng
               không gian tuyệt vời, thư giãn bên hồ bơi ngoài trời và lưu giữ
-              những khoảnh khắc đáng nhớ tại iHotel.{" "}
+              những khoảnh khắc đáng nhớ tại iHotel.{' '}
             </h3>
             <div className="flex text-4xl mt-8 justify-center items-center">
               <TbHandFingerRight />
               <button
-                className=" text-2xl ml-4 px-6 py-2 bg-mainColor1-500 text-white 
+                className=" text-2xl ml-4 px-6 py-2 bg-mainColor1-500 text-white
               rounded hover:bg-mainColor1-600 transition"
               >
                 Đặt phòng ngay
@@ -143,9 +141,8 @@ function HomePage() {
           </div>
         </div>
       </section>
-      <Footer />
     </>
-  );
+  )
 }
 
-export default HomePage;
+export default HomePage

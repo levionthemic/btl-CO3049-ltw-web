@@ -1,51 +1,50 @@
-import { useState } from "react";
-import Header from "~/components/Header/Header";
-import Footer from "~/components/Footer/Footer";
-import axios from "axios";
+import { useState } from 'react'
+import Header from '~/components/Header/Header'
+import Footer from '~/components/Footer/Footer'
+import axios from 'axios'
 
 function ContactPage() {
-  const [isSubmited, setIsSubmited] = useState(false);
+  const [isSubmited, setIsSubmited] = useState(false)
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+    name: '',
+    email: '',
+    message: ''
+  })
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
-    }));
-  };
+      [name]: value
+    }))
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       const response = await axios.post(
-        "http://localhost/public/api/contacts",
+        'http://localhost/public/api/contacts',
         formData,
         {
           headers: {
-            "Content-Type": "application/json",
-          },
+            'Content-Type': 'application/json'
+          }
         }
-      );
+      )
 
-      setIsSubmited(true);
+      setIsSubmited(true)
     } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("An error occurred. Please try again.");
+      console.error('Error submitting form:', error)
+      alert('An error occurred. Please try again.')
     }
-  };
+  }
 
   return (
-    <>
-      <Header></Header>
+    <div>
       {/* Hero Section */}
       <div
         className="relative h-[60vh] bg-cover bg-center"
-        style={{ backgroundImage: "url('reception.webp')" }}
+        style={{ backgroundImage: 'url(\'reception.webp\')' }}
       >
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white text-center">
           <div className="absolute bottom-auto md:bottom-auto  max-w-4xl mx-auto p-8">
@@ -169,9 +168,8 @@ function ContactPage() {
           </p>
         </div>
       </section>
-      <Footer></Footer>
-    </>
-  );
+    </div>
+  )
 }
 
-export default ContactPage;
+export default ContactPage
