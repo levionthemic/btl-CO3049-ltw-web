@@ -56,13 +56,13 @@ function AccountTab() {
   }
 
   const handleUpdateProfile = () => {
-    setUser(userInfo)
     toast.promise(
       updateUserAPI(userInfo),
       {
         loading: 'Updating...',
         success: (res) => {
           if (!res.error) {
+            setUser(res.data.data)
             return 'Update successful!'
           }
         }
@@ -119,7 +119,6 @@ function AccountTab() {
                   <DialogFooter>
                     <DialogClose>
                       <Button onClick={handleUpdateProfile}>Save changes</Button>
-
                     </DialogClose>
                   </DialogFooter>
                 </DialogContent>

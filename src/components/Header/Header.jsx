@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog'
 import { logoutUserAPI } from '~/apis'
 import { useAuth } from '~/contexts/AuthContext'
+import { API_ROOT } from '~/utils/constants'
 
 const menus = [
   {
@@ -88,7 +89,7 @@ function Header() {
             <DropdownMenuTrigger asChild>
               <div className='flex items-center gap-3 cursor-pointer hover:bg-gray-200 p-1.5 rounded-lg hover:duration-300 hover:ease-in-out transition-all'>
                 <Avatar>
-                  <AvatarImage src={currentUser?.avatar} />
+                  <AvatarImage src={API_ROOT + currentUser?.avatar} />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div className='flex items-center gap-1'>

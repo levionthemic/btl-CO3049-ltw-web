@@ -43,6 +43,6 @@ export const fetchAllFaqsAPI = async () => {
  * @author levi
  */
 export const updateUserAPI = async (data) => {
-  const response = await authorizedAxiosInstance.put(`${API_ROOT}/api/user/update`, data)
+  const response = await authorizedAxiosInstance.post(`${API_ROOT}/api/user/update`, data)
   return response
 }
