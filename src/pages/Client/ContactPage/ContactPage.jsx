@@ -168,7 +168,7 @@ function ContactPage() {
           ></iframe>
         </div>
       </section>
-      <section className="bg-mainColor-300 py-16 px-8 mb-8 flex items-center justify-center">
+      {/* <section className=" bg-green-400 py-16 px-8 mt-[8rem] mb-[10rem] flex items-center justify-center">
         <div className=" text-center">
           <p className="text-2xl md:text-3xl font-semibold text-gray-700 italic">
             "Không chỉ là trải nghiệm, mà còn là kiến thức và kinh nghiệm."
@@ -177,7 +177,7 @@ function ContactPage() {
             — Thái Công không nói thế
           </p>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

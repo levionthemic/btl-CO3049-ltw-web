@@ -125,7 +125,7 @@ function HomePage() {
 
       {/* Address section*/}
       <section id="homepage__address">
-        <div className="container mx-auto py-15">
+        <div className="container mx-auto py-15 mb-4">
           <h2 className="text-4xl font-bold text-mainColor-400 text-center">
             Tìm chúng tôi ở đâu?
           </h2>
