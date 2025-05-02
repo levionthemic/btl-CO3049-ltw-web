@@ -57,7 +57,7 @@ function Account() {
               <label htmlFor='upload-cover' className='cursor-pointer absolute bottom-3 right-3 bg-mainColor-400 py-1 px-2 flex items-center gap-2 rounded-lg hover:bg-mainColor-600 hover:duration-300 hover:ease-in-out transition-all'><UploadCloudIcon />Upload new cover</label>
             </div>
             <div className="flex flex-col items-center w-fit absolute left-1/2 -translate-x-1/2 -bottom-32">
-              <div className="relative w-fit mb-4">
+              <div className="relative w-fit mb-4 bg-white rounded-full">
                 <img src={avatarPreviewUrl || API_ROOT + currentUser?.avatar} alt="" className='size-24 rounded-full object-cover border-[3px] border-mainColor1-600' />
                 <div className='absolute bottom-0 right-0'>
                   <input type="file" name="" id="upload-avatar" className='hidden' onChange={handleInputAvatarChange} />
