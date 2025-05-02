@@ -24,7 +24,7 @@ function ContactPage() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost/public/api/contacts",
+        "http://localhost/api/contacts",
         formData,
         {
           headers: {
