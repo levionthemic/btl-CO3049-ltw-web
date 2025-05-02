@@ -1,5 +1,4 @@
 import backgroundImage from '~/assets/background.jpg'
-import { FaCalendarAlt, FaChevronDown } from 'react-icons/fa'
 import sydneyImage from '~/assets/sydney.jpg'
 import istanbulImage from '~/assets/istanbul.jpg'
 import bakuImage from '~/assets/baku.jpg'
@@ -12,6 +11,8 @@ import srilanka1Image from '~/assets/srilanka1.jpg'
 import srilanka2Image from '~/assets/srilanka2.jpg'
 import srilanka3Image from '~/assets/srilanka3.jpg'
 import srilanka4Image from '~/assets/srilanka4.jpg'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 const places = [
   { name: 'Istanbul, Turkey', image: istanbulImage },
@@ -35,6 +36,24 @@ const sriLankaImages = [
 ]
 
 function SearchPage() {
+  const navigate = useNavigate()
+
+  const [checkin, setCheckin] = useState('')
+  const [checkout, setCheckout] = useState('')
+  const [guests, setGuests] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // Handle form submission logic here
+    if (!checkin || !checkout || !guests) {
+      alert('Please fill in all fields')
+      return
+    }
+
+    // Navigate to the list page with query parameters
+    navigate(`/rooms?checkin=${checkin}&checkout=${checkout}&guests=${guests}`)
+  }
+
   return (
     <div className="min-h-screen w-full bg-gray-50">
       {/* Header with background image */}
@@ -52,34 +71,48 @@ function SearchPage() {
         </div>
 
         {/* Search box */}
-        <form className="absolute bottom-[-110px] left-1/2 transform -translate-x-1/2 bg-white shadow-xl rounded-2xl p-10 w-[90%] max-w-6xl">
+        <form onSubmit={handleSubmit} className="absolute bottom-[-110px] left-1/2 transform -translate-x-1/2 bg-white shadow-xl rounded-2xl p-10 w-[80%] max-w-6xl">
           <p className="font-semibold text-2xl text-mainColor-700 mb-4">Where are you flying?</p>
-          <div className="grid grid-cols-5 gap-4 items-center">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="destination" className='font-semibold text-mainColor-700'>Destination</label>
-              <input
-                type='text'
-                id='destination'
-                name='destination'
-                className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'
-                placeholder="Enter Destination"
-              />
-            </div>
-
+          <div className="grid grid-cols-4 gap-4 items-center">
             <div className="flex flex-col gap-2">
               <label htmlFor="checkin" className='font-semibold text-mainColor-700'>Check in</label>
-              <input type="date" id='checkin' name='checkin' className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'/>
+              <input
+                type="date"
+                id='checkin'
+                name='checkin'
+                value={checkin}
+                onChange={(e) => setCheckin(e.target.value)}
+                className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'/>
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="checkout" className='font-semibold text-mainColor-700'>Check out</label>
-              <input type="date" id='checkout' name='checkout' className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'/>
+              <input
+                type="date"
+                id='checkout'
+                name='checkout'
+                value={checkout}
+                onChange={(e) => setCheckout(e.target.value)}
+                className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'/>
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="room-type" className='font-semibold text-mainColor-700'>Rooms & Guests</label>
-              <select id='room-type' name='room-type' className="border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 text-mainColor-800">
-                <option value="1r2g">1 Room, 2 Guests</option>
-                <option value="1r3g">1 Room, 3 Guests</option>
-                <option value="1r4g">1 Room, 4 Guests</option>
+              <label htmlFor="room-type" className='font-semibold text-mainColor-700'>Guests</label>
+              <select
+                id='room-type'
+                name='room-type'
+                value={guests}
+                onChange={e => setGuests(e.target.value)}
+                className="border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 text-mainColor-800">
+                <option value="" disabled selected className='text-sm'>--Select number of guests--</option>
+                <option value="1"> 1 Guest</option>
+                <option value="2"> 2 Guests</option>
+                <option value="3"> 3 Guests</option>
+                <option value="4"> 4 Guests</option>
+                <option value="5"> 5 Guests</option>
+                <option value="6"> 6 Guests</option>
+                <option value="7"> 7 Guests</option>
+                <option value="8"> 8 Guests</option>
+                <option value="9"> 9 Guests</option>
+                <option value="10"> 10 Guests</option>
               </select>
             </div>
             <button type='submit' className='bg-mainColor-500 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-4'>Show Places</button>

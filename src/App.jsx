@@ -33,8 +33,8 @@ function App() {
       <Route path='/' element={<ClientLayout />}>
         <Route index element={<HomePage />} />
         <Route path='search' element={<SearchPage />} />
-        <Route path='list' element={<ListPage />} />
-        <Route path='detail' element={<DetailPage />} />
+        <Route path='rooms' element={<ListPage />} />
+        <Route path='rooms/detail/:id' element={<DetailPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="customer" element={<CustomerPage />} />
