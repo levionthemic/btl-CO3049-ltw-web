@@ -26,8 +26,8 @@
       .replace(/\b(SELECT|INSERT|DELETE|UPDATE|DROP|CREATE|ALTER|EXEC|UNION|TRUNCATE|REPLACE|MERGE)\b/gi, "")
       
       // Remove multiple whitespaces
-      .replace(/\s{2,}/g, " ")
-      .trim();
+    //   .replace(/\s{2,}/g, " ")
+    //   .trim();
   }
   
   export default sanitizeInput;
