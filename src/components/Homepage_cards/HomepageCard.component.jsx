@@ -2,7 +2,7 @@ import React from "react";
 
 const HomepageCard = ({ imageSrc, title, description }) => {
   return (
-    <div className="homepage-card p-4 rounded-lg bg-mainColor1-400 w-full h-auto overflow-hidden">
+    <div className="homepage-card p-4 rounded-lg bg-mainColor-200 w-full h-auto overflow-hidden">
       <img
         src={imageSrc}
         alt={title}

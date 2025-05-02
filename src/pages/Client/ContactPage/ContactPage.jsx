@@ -59,7 +59,7 @@ function ContactPage() {
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white text-center">
           <div className="absolute bottom-auto md:bottom-auto  max-w-4xl mx-auto p-8">
             <h1 className=" text-2xl lg:text-5xl font-bold mb-4">
-              Liên hệ với iHotel
+              Liên hệ với Levi
             </h1>
 
             <span className=" text-md lg:text-xl mx-auto block">
@@ -94,7 +94,7 @@ function ContactPage() {
 
             <form
               onSubmit={handleSubmit}
-              className="mt-6 bg-mainColor1-200 p-6 rounded-lg shadow-lg"
+              className="mt-6 bg-mainColor-200 p-6 rounded-lg shadow-lg"
             >
               <div className="mb-4">
                 <label className="block text-gray-700 font-semibold">
@@ -136,7 +136,7 @@ function ContactPage() {
               </div>
               <button
                 type="submit"
-                className="bg-mainColor1-800 text-white px-4 py-2 rounded hover:bg-mainColor1-900 transition"
+                className="bg-mainColor-800 text-white px-4 py-2 rounded hover:bg-mainColor-900 transition"
               >
                 Send Message
               </button>
@@ -168,7 +168,7 @@ function ContactPage() {
           ></iframe>
         </div>
       </section>
-      <section className="bg-mainColor1-200 py-16 px-8 flex items-center justify-center">
+      <section className="bg-mainColor-300 py-16 px-8 mb-8 flex items-center justify-center">
         <div className=" text-center">
           <p className="text-2xl md:text-3xl font-semibold text-gray-700 italic">
             "Không chỉ là trải nghiệm, mà còn là kiến thức và kinh nghiệm."
