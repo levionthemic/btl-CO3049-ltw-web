@@ -18,7 +18,7 @@ function ForgotPassword() {
           <form action="">
             <div className='flex flex-col gap-2 mb-8'>
               <label htmlFor="email" className='font-semibold text-mainColor-700'>Email</label>
-              <input type="email" placeholder='Email' id='email' name='email' className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-8 00' />
+              <input type="email" placeholder='Email' id='email' name='email' className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800' />
             </div>
             <button type="submit" className='bg-mainColor-500 text-white py-3 px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all'>Submit</button>
           </form>

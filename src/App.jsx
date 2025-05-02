@@ -14,6 +14,9 @@ import ClientLayout from './components/Layout/ClientLayout'
 import Page404 from './pages/Page404/Page404'
 import ResetPassword from './pages/Auth/ResetPassword'
 import VerifyCode from './pages/Auth/VerifyCode'
+import SearchPage from './pages/Client/SearchPage/SearchPage'
+import ListPage from './pages/Client/ListPage/ListPage'
+import DetailPage from './pages/Client/DetailPage/DetailPage'
 
 function App() {
   return (
@@ -29,6 +32,9 @@ function App() {
 
       <Route path='/' element={<ClientLayout />}>
         <Route index element={<HomePage />} />
+        <Route path='search' element={<SearchPage />} />
+        <Route path='list' element={<ListPage />} />
+        <Route path='detail' element={<DetailPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="customer" element={<CustomerPage />} />
