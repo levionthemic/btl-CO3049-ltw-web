@@ -28,3 +28,8 @@ export const refreshTokenAPI = async () => {
   const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/auth/refresh-token`)
   return response
 }
+
+export const getRoomsAPI = async (params) => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/rooms`, { params })
+  return response
+}
