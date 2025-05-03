@@ -1,4 +1,5 @@
-import { Route, Routes } from 'react-router-dom'
+/* eslint-disable react/prop-types */
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import ForgotPassword from '~/pages/Auth/ForgotPassword'
 import LoginForm from '~/pages/Auth/LoginForm'
 import HomePage from '~/pages/Client/HomePage/HomePage'
@@ -7,8 +8,6 @@ import ContactPage from '~/pages/Client/ContactPage/ContactPage'
 import TestPage from './pages/Test/TestPage'
 import SettingsPage from './pages/Client/Settings/SettingsPage'
 import CustomerPage from './pages/Client/CustomerPage/CustomerPage'
-import AdminLayout from '~/components/Layout/AdminLayout'
-import Dashboard from '~/pages/Admin/Dashboard/Dashboard'
 import AboutUsPage from './pages/Client/AboutUsPage/AboutUsPage'
 import ClientLayout from './components/Layout/ClientLayout'
 import Page404 from './pages/Page404/Page404'
@@ -18,7 +17,13 @@ import SearchPage from './pages/Client/SearchPage/SearchPage'
 import ListPage from './pages/Client/ListPage/ListPage'
 import DetailPage from './pages/Client/DetailPage/DetailPage'
 
+const PrivateRoute = ({ user }) => {
+  if (!user) return <Navigate to='/login' replace={true} />
+  return <Outlet />
+}
+
 function App() {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'))
   return (
     <Routes>
       <Route path="/login" element={<LoginForm />} />
@@ -30,21 +35,18 @@ function App() {
       {/* Test page */}
       <Route path="/test" element={<TestPage />}></Route>
 
-      <Route path='/' element={<ClientLayout />}>
-        <Route index element={<HomePage />} />
-        <Route path='search' element={<SearchPage />} />
-        <Route path='rooms' element={<ListPage />} />
-        <Route path='rooms/detail/:id' element={<DetailPage />} />
-        <Route path="contact" element={<ContactPage />} />
-        <Route path="settings" element={<SettingsPage />} />
-        <Route path="customer" element={<CustomerPage />} />
+      <Route element={<PrivateRoute user={currentUser} />}>
+        <Route path='/' element={<ClientLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path='search' element={<SearchPage />} />
+          <Route path='rooms' element={<ListPage />} />
+          <Route path='rooms/detail/:id' element={<DetailPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+          <Route path="customer" element={<CustomerPage />} />
 
-        <Route path="about-us" element={<AboutUsPage />} />
-      </Route>
-
-
-      <Route path='/admin' element={<AdminLayout />}>
-        <Route index element={<Dashboard />} />
+          <Route path="about-us" element={<AboutUsPage />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<Page404 />} />
