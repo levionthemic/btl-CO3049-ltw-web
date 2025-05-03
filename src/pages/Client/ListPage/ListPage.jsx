@@ -45,10 +45,11 @@ function ListPage() {
   const [checkin, setCheckin] = useState('')
   const [checkout, setCheckout] = useState('')
   const [guests, setGuests] = useState('')
+  const [sort, setSort] = useState('')
+
   const [minPrice, setMinPrice] = useState(0)
   const [maxPrice, setMaxPrice] = useState(3000)
   const [fromRating, setFromRating] = useState('')
-  const [sort, setSort] = useState('')
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
@@ -56,10 +57,21 @@ function ListPage() {
     const checkinParam = searchParams.get('checkin')
     const checkoutParam = searchParams.get('checkout')
     const guestsParam = searchParams.get('guests')
+    const minPriceParam = searchParams.get('minPrice')
+    const maxPriceParam = searchParams.get('maxPrice')
+    const fromRatingParam = searchParams.get('fromRating')
+    const sortParam = searchParams.get('sort')
 
+    let params = {}
     if (checkinParam) setCheckin(checkinParam)
     if (checkoutParam) setCheckout(checkoutParam)
     if (guestsParam) setGuests(guestsParam)
+    if (minPriceParam) params = { ...params, minPrice: minPriceParam }
+    if (maxPriceParam) params = { ...params, maxPrice: maxPriceParam }
+    if (fromRatingParam) params = { ...params, fromRating: fromRatingParam }
+    if (sortParam) params = { ...params, sort: sortParam }
+
+   
   }, [searchParams])
 
   const handleMinChange = (e) => {

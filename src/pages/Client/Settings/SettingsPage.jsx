@@ -1,77 +1,77 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const SettingsPage = () => {
   const [formData, setFormData] = useState({
-    hotelName: "",
-    phoneNumber: "",
-    address: "",
+    hotelName: '',
+    phoneNumber: '',
+    address: '',
     logo: null,
-    currentLogoPath: "/uploads/current-logo.png", // Example path for current logo
-  });
+    currentLogoPath: '/uploads/current-logo.png' // Example path for current logo
+  })
 
-  const [isSubmited, setIsSubmited] = useState(false);
+  const [isSubmited, setIsSubmited] = useState(false)
 
   useEffect(() => {
     axios
-      .get("http://localhost/public/api/settings/latest")
+      .get('http://localhost/public/api/settings/latest')
       .then((response) => {
-        const data = response.data;
+        const data = response.data
         setFormData({
-          hotelName: data.hotel_name || "",
-          phoneNumber: data.phone_number || "",
-          address: data.address || "",
+          hotelName: data.hotel_name || '',
+          phoneNumber: data.phone_number || '',
+          address: data.address || '',
           logo: null,
           currentLogoPath: data.logo_path
             ? `http://localhost/public/uploads/${data.logo_path}`
-            : "",
-        });
+            : ''
+        })
       })
       .catch((error) => {
         console.error(
-          "Error fetching settings:",
+          'Error fetching settings:',
           error.response?.data || error.message
-        );
-      });
-  }, []);
+        )
+      })
+  }, [])
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, logo: e.target.files[0] });
-  };
+    setFormData({ ...formData, logo: e.target.files[0] })
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const formDataToSend = new FormData();
-    formDataToSend.append("hotel_name", formData.hotelName);
-    formDataToSend.append("phone_number", formData.phoneNumber);
-    formDataToSend.append("address", formData.address);
+    const formDataToSend = new FormData()
+    formDataToSend.append('hotel_name', formData.hotelName)
+    formDataToSend.append('phone_number', formData.phoneNumber)
+    formDataToSend.append('address', formData.address)
     if (formData.logo) {
-      formDataToSend.append("logo", formData.logo);
+      formDataToSend.append('logo', formData.logo)
     }
 
     axios
-      .post("http://localhost/public/api/settings", formDataToSend, {
+      .post('http://localhost/public/api/settings', formDataToSend, {
         headers: {
-          "Content-Type": "multipart/form-data",
-        },
+          'Content-Type': 'multipart/form-data'
+        }
       })
       .then((response) => {
-        console.log("API Response:", response.data);
-        setIsSubmited(true);
+        console.log('API Response:', response.data)
+        setIsSubmited(true)
       })
       .catch((error) => {
-        console.log("API Response:", JSON.stringify(error));
+        console.log('API Response:', JSON.stringify(error))
 
-        console.error("API Error:", error.response?.data || error.message);
-      });
-    console.log("Form submitted:", formData);
-  };
+        console.error('API Error:', error.response?.data || error.message)
+      })
+    console.log('Form submitted:', formData)
+  }
   return (
     <div className="bg-gray-100 min-h-screen py-8">
       {!isSubmited ? (
@@ -190,7 +190,7 @@ const SettingsPage = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default SettingsPage;
+export default SettingsPage
