@@ -115,7 +115,7 @@ function SearchPage() {
                 <option value="10"> 10 Guests</option>
               </select>
             </div>
-            <button type='submit' className='bg-mainColor-500 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-4'>Show Places</button>
+            <button type='submit' className='bg-mainColor-500 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-4'>Show Rooms</button>
           </div>
         </form>
       </div>

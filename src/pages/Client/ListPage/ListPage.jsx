@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react'
-import Slider from 'rc-slider'
-import 'rc-slider/assets/index.css'
+
 import room1Image from '~/assets/room1.jpg'
 import room2Image from '~/assets/room2.jpg'
 import room3Image from '~/assets/room3.jpg'
 import room4Image from '~/assets/room4.jpg'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { use } from 'react'
 
-const { Range } = Slider
 
 const hotels = [
   {
