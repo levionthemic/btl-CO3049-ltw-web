@@ -9,9 +9,11 @@ import clsx from 'clsx'
 import { loginUserAPI } from '~/apis'
 import { toast } from 'sonner'
 import { useEffect } from 'react'
+import { useAuth } from '~/contexts/AuthContext'
 
 function LoginForm() {
   const navigate = useNavigate()
+  const { currentUser, setUser } = useAuth()
 
   const formSchema = z.object({
     email: z.string().min(1, { message: FIELD_REQUIRED_MESSAGE }).regex(EMAIL_RULE, { message: EMAIL_RULE_MESSAGE }),
@@ -33,7 +35,7 @@ function LoginForm() {
         loading: 'Login is in progress...',
         success: (res) => {
           if (!res.error) {
-            localStorage.setItem('currentUser', JSON.stringify(res.data.data.user))
+            setUser(res.data.data.user)
             navigate('/')
             return 'Login successfully!'
           }
@@ -43,9 +45,9 @@ function LoginForm() {
   }
 
   useEffect(() => {
-    if (localStorage.getItem('currentUser'))
+    if (currentUser)
       navigate('/', { replace: true })
-  }, [navigate])
+  }, [currentUser, navigate])
 
   return (
     <div className='flex items-center justify-center w-[100vw] h-[100vh]'>

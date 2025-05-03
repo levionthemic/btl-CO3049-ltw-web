@@ -1,4 +1,4 @@
-import logo from '~/assets/logo.png'
+import logo from "~/assets/logo.png";
 
 const Footer = () => {
   return (
@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-5 gap-6">
         {/* Logo + Social */}
         <div className="space-y-4">
-          <div className='bg-white rounded-xl'>
+          <div className="bg-white rounded-xl">
             <img src={logo} alt="" />
           </div>
           <div className="flex gap-3 text-xl text-gray-800">
@@ -65,7 +65,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

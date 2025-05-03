@@ -1,55 +1,56 @@
-import { useState } from 'react'
-import Header from '~/components/Header/Header'
-import Footer from '~/components/Footer/Footer'
-import axios from 'axios'
+import { useState } from "react";
+import Header from "~/components/Header/Header";
+import Footer from "~/components/Footer/Footer";
+import axios from "axios";
+import sanitizeInput from "~/utils/inputSanitizer.js";
 
 function ContactPage() {
-  const [isSubmited, setIsSubmited] = useState(false)
+  const [isSubmited, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  })
+    name: "",
+    email: "",
+    message: "",
+  });
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value
-    }))
-  }
+      [name]: sanitizeInput(value),
+    }));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost/public/api/contacts',
+        "http://localhost/api/contacts",
         formData,
         {
           headers: {
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+          },
         }
-      )
+      );
 
-      setIsSubmited(true)
+      setIsSubmited(true);
     } catch (error) {
-      console.error('Error submitting form:', error)
-      alert('An error occurred. Please try again.')
+      console.error("Error submitting form:", error);
+      alert("An error occurred. Please try again.");
     }
-  }
+  };
 
   return (
     <div>
       {/* Hero Section */}
       <div
         className="relative h-[60vh] bg-cover bg-center"
-        style={{ backgroundImage: 'url(\'reception.webp\')' }}
+        style={{ backgroundImage: "url('reception.webp')" }}
       >
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white text-center">
           <div className="absolute bottom-auto md:bottom-auto  max-w-4xl mx-auto p-8">
             <h1 className=" text-2xl lg:text-5xl font-bold mb-4">
-              Liên hệ với iHotel
+              Liên hệ với Levi
             </h1>
 
             <span className=" text-md lg:text-xl mx-auto block">
@@ -84,7 +85,7 @@ function ContactPage() {
 
             <form
               onSubmit={handleSubmit}
-              className="mt-6 bg-mainColor1-200 p-6 rounded-lg shadow-lg"
+              className="mt-6 bg-mainColor-200 p-6 rounded-lg shadow-lg"
             >
               <div className="mb-4">
                 <label className="block text-gray-700 font-semibold">
@@ -126,7 +127,7 @@ function ContactPage() {
               </div>
               <button
                 type="submit"
-                className="bg-mainColor1-800 text-white px-4 py-2 rounded hover:bg-mainColor1-900 transition"
+                className="bg-mainColor-800 text-white px-4 py-2 rounded hover:bg-mainColor-900 transition"
               >
                 Send Message
               </button>
@@ -158,7 +159,7 @@ function ContactPage() {
           ></iframe>
         </div>
       </section>
-      <section className="bg-mainColor1-200 py-16 px-8 flex items-center justify-center">
+      {/* <section className=" bg-green-400 py-16 px-8 mt-[8rem] mb-[10rem] flex items-center justify-center">
         <div className=" text-center">
           <p className="text-2xl md:text-3xl font-semibold text-gray-700 italic">
             "Không chỉ là trải nghiệm, mà còn là kiến thức và kinh nghiệm."
@@ -167,9 +168,9 @@ function ContactPage() {
             — Thái Công không nói thế
           </p>
         </div>
-      </section>
+      </section> */}
     </div>
-  )
+  );
 }
 
-export default ContactPage
+export default ContactPage;

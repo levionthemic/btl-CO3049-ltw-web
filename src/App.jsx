@@ -11,11 +11,14 @@ import CustomerPage from './pages/Client/CustomerPage/CustomerPage'
 import AboutUsPage from './pages/Client/AboutUsPage/AboutUsPage'
 import ClientLayout from './components/Layout/ClientLayout'
 import Page404 from './pages/Page404/Page404'
+import Account from './pages/Account/Account'
 import ResetPassword from './pages/Auth/ResetPassword'
 import VerifyCode from './pages/Auth/VerifyCode'
 import SearchPage from './pages/Client/SearchPage/SearchPage'
 import ListPage from './pages/Client/ListPage/ListPage'
 import DetailPage from './pages/Client/DetailPage/DetailPage'
+import FaqPage from './pages/Client/FaqPage/FaqPage'
+import { useAuth } from './contexts/AuthContext'
 
 const PrivateRoute = ({ user }) => {
   if (!user) return <Navigate to='/login' replace={true} />
@@ -23,7 +26,7 @@ const PrivateRoute = ({ user }) => {
 }
 
 function App() {
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+  const { currentUser } = useAuth()
   return (
     <Routes>
       <Route path="/login" element={<LoginForm />} />
@@ -35,6 +38,14 @@ function App() {
       {/* Test page */}
       <Route path="/test" element={<TestPage />}></Route>
 
+      <Route path='/' element={<ClientLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="contact" element={<ContactPage />} />
+
+        <Route path="about-us" element={<AboutUsPage />} />
+        <Route path="faq" element={<FaqPage />} />
+      </Route>
+
       <Route element={<PrivateRoute user={currentUser} />}>
         <Route path='/' element={<ClientLayout />}>
           <Route index element={<HomePage />} />
@@ -45,7 +56,8 @@ function App() {
           <Route path="settings" element={<SettingsPage />} />
           <Route path="customer" element={<CustomerPage />} />
 
-          <Route path="about-us" element={<AboutUsPage />} />
+          {/* Account Flow */}
+          <Route path="account" element={<Account />} />
         </Route>
       </Route>
 

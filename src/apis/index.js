@@ -38,3 +38,20 @@ export const getRoomDetailAPI = async (roomId) => {
   const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/rooms/detail/${roomId}`)
   return response
 }
+/**
+ * FAQ APIs
+ * @author levi
+ */
+export const fetchAllFaqsAPI = async () => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/faq`)
+  return response
+}
+
+/**
+ * User APIs
+ * @author levi
+ */
+export const updateUserAPI = async (data) => {
+  const response = await authorizedAxiosInstance.post(`${API_ROOT}/api/user/update`, data)
+  return response
+}
