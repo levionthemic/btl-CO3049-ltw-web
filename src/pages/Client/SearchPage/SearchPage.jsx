@@ -44,14 +44,15 @@ function SearchPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Handle form submission logic here
-    if (!checkin || !checkout || !guests) {
-      alert('Please fill in all fields')
-      return
+    let params = '?'
+    if (checkin) params += `&checkin=${checkin}`
+    if (checkout) params += `&checkout=${checkout}`
+    if (guests) params += `&guests=${guests}`
+    if (checkin || checkout || guests) {
+      navigate('/rooms'+ params)
+    } else {
+      navigate('/rooms')
     }
-
-    // Navigate to the list page with query parameters
-    navigate(`/rooms?checkin=${checkin}&checkout=${checkout}&guests=${guests}`)
   }
 
   return (
@@ -142,7 +143,6 @@ function SearchPage() {
       <div className="mt-20 px-10">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-3xl font-semibold text-mainColor-500">Fall into travel</h2>
-          <button className="text-md text-mainColor1-500 hover:text-mainColor1-700 hover:scale-105 hover:duration-300 hover:ease-in-out transition-all">See All</button>
         </div>
         <p className="text-gray-600 mb-6">Going somewhere to celebrate this season? Whether you&apos;re going home or somewhere to roam, we&apos;ve got the travel tools to get you to your destination.</p>
         <div className="grid grid-cols-4 gap-8">
@@ -151,8 +151,6 @@ function SearchPage() {
               <img src={city.image} alt={city.name} className="w-full h-40 object-cover" />
               <div className="p-3">
                 <p className="font-semibold text-mainColor-600 mb-1">{city.name}</p>
-                <p className="text-sm text-gray-500 mb-1">$ {city.price}</p>
-                <button className='bg-mainColor-500 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>Book a Hotel</button>
               </div>
             </div>
           ))}
@@ -163,7 +161,6 @@ function SearchPage() {
       <div className="mt-20 px-10 mb-20">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-3xl font-semibold text-mainColor-500">Fall into travel</h2>
-          <button className="text-md text-mainColor1-500 hover:text-mainColor1-700 hover:scale-105 hover:duration-300 hover:ease-in-out transition-all">See All</button>
         </div>
         <p className="text-gray-600 mb-6">Going somewhere to celebrate this season? Whether you&apos;re going home or somewhere to roam, we&apos;ve got the travel tools to get you to your destination.</p>
         <div className="flex items-center justify-stretch gap-4 h-[400px]">
@@ -173,10 +170,6 @@ function SearchPage() {
               <p className="mt-2 text-sm text-gray-700">
                 Traveling is an investment in the life, not just a long holiday. Find the most interesting places, live with locals and feel the culture deeply.
               </p>
-            </div>
-            <div className="flex items-center justify-between mt-4">
-              <span className="text-sm bg-white text-green-700 px-3 py-1 rounded-full">From $700</span>
-              <button className='bg-mainColor-600 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>Book Flight</button>
             </div>
           </div>
           <div className='w-[55%] grid grid-cols-2 items-center gap-3 h-full'>

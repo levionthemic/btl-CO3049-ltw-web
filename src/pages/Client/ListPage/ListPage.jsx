@@ -1,47 +1,12 @@
 import { useEffect, useState } from 'react'
 
-import room1Image from '~/assets/room1.jpg'
-import room2Image from '~/assets/room2.jpg'
-import room3Image from '~/assets/room3.jpg'
-import room4Image from '~/assets/room4.jpg'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { getRoomsAPI } from '~/apis'
+import { DEFAULT_ROOM_NUMBER } from '~/utils/constants'
 
 
-const hotels = [
-  {
-    id: 1,
-    name: 'CVK Park Bosphorus Hotel Istanbul',
-    rating: 4.2,
-    reviews: 371,
-    price: 240,
-    image: room1Image
-  },
-  {
-    id: 2,
-    name: 'Eresin Hotels Sultanahmet - Boutique Class',
-    rating: 4.2,
-    reviews: 54,
-    price: 104,
-    image: room2Image
-  },
-  {
-    id: 3,
-    name: 'Eresin Hotels Sultanahmet - Boutique Class',
-    rating: 4.2,
-    reviews: 54,
-    price: 104,
-    image: room3Image
-  },
-  {
-    id: 4,
-    name: 'Eresin Hotels Sultanahmet - Boutique Class',
-    rating: 4.2,
-    reviews: 54,
-    price: 104,
-    image: room4Image
-  }
-]
 function ListPage() {
+  const [currentRooms, setCurrentRooms] = useState([])
   const [checkin, setCheckin] = useState('')
   const [checkout, setCheckout] = useState('')
   const [guests, setGuests] = useState('')
@@ -53,26 +18,8 @@ function ListPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const checkinParam = searchParams.get('checkin')
-    const checkoutParam = searchParams.get('checkout')
-    const guestsParam = searchParams.get('guests')
-    const minPriceParam = searchParams.get('minPrice')
-    const maxPriceParam = searchParams.get('maxPrice')
-    const fromRatingParam = searchParams.get('fromRating')
-    const sortParam = searchParams.get('sort')
-
-    let params = {}
-    if (checkinParam) setCheckin(checkinParam)
-    if (checkoutParam) setCheckout(checkoutParam)
-    if (guestsParam) setGuests(guestsParam)
-    if (minPriceParam) params = { ...params, minPrice: minPriceParam }
-    if (maxPriceParam) params = { ...params, maxPrice: maxPriceParam }
-    if (fromRatingParam) params = { ...params, fromRating: fromRatingParam }
-    if (sortParam) params = { ...params, sort: sortParam }
-
-   
-  }, [searchParams])
+  const [roomNum, setRoomNum] = useState(DEFAULT_ROOM_NUMBER)
+  const [maxRoomNum, setMaxRoomNum] = useState(0)
 
   const handleMinChange = (e) => {
     const value = parseInt(e.target.value)
@@ -106,20 +53,78 @@ function ListPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
-    if (checkin && checkout && guests) {
-      navigate(`/rooms?checkin=${checkin}&checkout=${checkout}&guests=${guests}`, { replace: true })
+    let params = '?'
+    if (checkin) params += `&checkin=${checkin}`
+    if (checkout) params += `&checkout=${checkout}`
+    if (guests) params += `&guests=${guests}`
+    if (checkin || checkout || guests) {
+      navigate('/rooms'+ params)
     } else {
-      alert('Please fill in all fields')
+      navigate('/rooms')
     }
   }
+
+  const handleLoadMore = (e) => {
+    e.preventDefault()
+    setRoomNum((prev) => {
+      if (prev + DEFAULT_ROOM_NUMBER <= maxRoomNum) {
+        return prev + DEFAULT_ROOM_NUMBER
+      } else {
+        return maxRoomNum
+      }
+    })
+  }
+
+  const handleViewRoom = (id) => (e) => {
+    e.preventDefault()
+    let params = '?'
+    if (checkin) params += `&checkin=${checkin}`
+    if (checkout) params += `&checkout=${checkout}`
+    if (guests) params += `&guests=${guests}`
+    if (checkin || checkout || guests) {
+      navigate(`/rooms/detail/${id}`+ params)
+    } else {
+      navigate(`/rooms/detail/${id}`)
+    }
+  }
+
+  useEffect(() => {
+    const checkinParam = searchParams.get('checkin')
+    const checkoutParam = searchParams.get('checkout')
+    const guestsParam = searchParams.get('guests')
+    const minPriceParam = searchParams.get('minPrice')
+    const maxPriceParam = searchParams.get('maxPrice')
+    const fromRatingParam = searchParams.get('fromRating')
+    const sortParam = searchParams.get('sort')
+    let params = {}
+    if (checkinParam) setCheckin(checkinParam)
+    if (checkoutParam) setCheckout(checkoutParam)
+    if (guestsParam) {
+      setGuests(guestsParam)
+      params = { ...params, guests: guestsParam }
+    }
+    if (minPriceParam) params = { ...params, minPrice: minPriceParam }
+    if (maxPriceParam) params = { ...params, maxPrice: maxPriceParam }
+    if (fromRatingParam) params = { ...params, fromRating: fromRatingParam }
+    if (sortParam) params = { ...params, sort: sortParam }
+
+    getRoomsAPI(params).then((res) => {
+      setMaxRoomNum(res.data.data.length)
+      setCurrentRooms(res.data.data.slice(0, roomNum))
+      if (res.data.data.length < DEFAULT_ROOM_NUMBER) {
+        setRoomNum(res.data.data.length)
+      } else {
+        setRoomNum(DEFAULT_ROOM_NUMBER)
+      }
+    })
+  }, [searchParams, roomNum])
+
 
   return (
     <div className="min-h-screen w-full bg-gray-50 font-sans relative">
       <div className="flex items-center justify-center mt-3 mb-10">
         <form onSubmit={handleSubmit} className="bg-white shadow-xl rounded-2xl p-10 w-[90%] max-w-6xl">
           <div className="grid grid-cols-4 gap-4 items-center">
-
             <div className="flex flex-col gap-2">
               <label htmlFor="checkin" className='font-semibold text-mainColor-700'>Check in</label>
               <input
@@ -161,14 +166,14 @@ function ListPage() {
                 <option value="10"> 10 Guests</option>
               </select>
             </div>
-            <button type='submit' className='bg-mainColor-500 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-4'>Show Places</button>
+            <button type='submit' className='bg-mainColor-500 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-4'>Show Rooms</button>
           </div>
         </form>
       </div>
 
       <form onSubmit={handleFilter} className="flex justify-center min-h-screen bg-gray-50 w-[80%] mx-auto mb-20">
         {/* Sidebar Filter */}
-        <div className="w-[28%] bg-white p-6 border-r border-gray-200">
+        <div className="w-[28%] p-6 border-r border-gray-200">
           <h2 className="text-2xl text-mainColor-500 font-bold mb-4">Filters</h2>
 
           {/* Price Range */}
@@ -207,7 +212,7 @@ function ListPage() {
           {/* Rating */}
           <div className="mb-6">
             <p className="font-semibold text-mainColor-600 mb-2">Rating</p>
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex items-center justify-center gap-5">
               {['0', '1', '2', '3', '4'].map((r) => (
                 <div key={r}>
                   <input
@@ -220,8 +225,8 @@ function ListPage() {
                   />
                   <label
                     htmlFor={`rating-${r}`}
-                    className="px-3 py-2 flex items-center justify-center border rounded text-sm cursor-pointer
-                   peer-checked:bg-mainColor-600 peer-checked:text-white hover:bg-mainColor-200 hover:text-mainColor-900 transition-all duration-300 hover:ease-in-out"
+                    className="px-3 py-2 flex bg-mainColor-100 items-center justify-center border rounded text-sm cursor-pointer
+                   peer-checked:bg-mainColor-600 peer-checked:text-white hover:bg-mainColor-300 hover:text-mainColor-900 transition-all duration-300 hover:ease-in-out"
                   >
                     {r}+
                   </label>
@@ -244,78 +249,56 @@ function ListPage() {
             </div>
           </div>
 
-          {/* Freebies */}
-          {/* <div className="mb-6">
-            <p className="font-medium mb-2">Freebies</p>
-            {['Free breakfast', 'Free parking', 'Free internet', 'Free airport shuttle', 'Free cancellation'].map(
-              (f, i) => (
-                <div key={i} className="flex items-center space-x-2">
-                  <input type="checkbox" />
-                  <label className="text-sm">{f}</label>
-                </div>
-              )
-            )}
-          </div> */}
-
-          {/* Amenities */}
-          {/* <div>
-            <p className="font-medium mb-2">Amenities</p>
-            {['24hr front desk', 'Air-conditioned', 'Fitness', 'Pool'].map((a, i) => (
-              <div key={i} className="flex items-center space-x-2">
-                <input type="checkbox" />
-                <label className="text-sm">{a}</label>
-              </div>
-            ))}
-          </div> */}
-
           <button type='submit' className="text-white font-bold bg-mainColor-600 w-full py-2 rounded-lg text-xl mt-3 hover:scale-105 hover:bg-mainColor-800 hover:ease-in-out duration-300 transition-all">Done</button>
         </div>
 
         {/* Main Content */}
         <div className="flex-1 p-6">
           <div className='mb-3'>
-            <h2 className="text-lg font-semibold text-mainColor-500">Showing 4 of 257 places</h2>
+            <h2 className="text-lg font-semibold text-mainColor-500">Showing {roomNum} of {maxRoomNum} rooms</h2>
           </div>
 
 
           {/* Hotel Listings */}
           <div className="space-y-4">
-            {hotels.map((hotel) => (
-              <div key={hotel.id} className="bg-white shadow p-4 rounded-lg flex gap-4">
+            {currentRooms.map((room) => (
+              <div key={room.id} className="bg-white shadow p-4 rounded-lg flex gap-4">
                 <img
-                  src={hotel.image}
-                  alt={hotel.name}
+                  src={room.image_url}
+                  alt={room.name}
                   className="w-48 h-32 object-cover rounded"
                 />
                 <div className="flex-1">
-                  <h3 className="font-semibold text-lg mb-1">{hotel.name}</h3>
+                  <h3 className="font-semibold text-lg mb-1">{room.name}</h3>
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
-                    <span className="bg-mainColor-100 font-semibold text-mainColor-700 px-2 py-1 rounded">{hotel.rating}</span>
-                    <span>Very Good {hotel.reviews} reviews</span>
+                    <span className="bg-mainColor-100 font-semibold text-mainColor-700 px-2 py-1 rounded">{room.rating}</span>
+                    <span>Very Good</span>
                   </div>
                 </div>
                 <div className="flex flex-col justify-between items-end">
                   <p className="text-right text-sm text-gray-500">
                   starting from <br />
                     <span className="text-mainColor1-700 text-lg font-semibold">
-                    ${hotel.price}/night
+                    ${room.price_per_night}/night
                     </span>
                     <br /> excl. tax
                   </p>
                   <div className="flex gap-2 mt-2">
-                    <button className='bg-mainColor-600 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>
-                    View Place
+                    <button onClick={handleViewRoom(room.id)} className='bg-mainColor-600 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>
+                    View Room
                     </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <button className='bg-mainColor-600 text-white px-4 rounded-sm w-full hover:bg-mainColor-800  hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2 mt-4'>
-          Load More
-          </button>
+          {roomNum < maxRoomNum && <div onClick={handleLoadMore} className='flex justify-center bg-mainColor-600 text-white px-4 rounded-sm w-full hover:bg-mainColor-800  hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2 mt-4'>
+            Load More
+          </div>}
+
+
         </div>
       </form>
 

@@ -33,3 +33,8 @@ export const getRoomsAPI = async (params) => {
   const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/rooms`, { params })
   return response
 }
+
+export const getRoomDetailAPI = async (roomId) => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/rooms/detail/${roomId}`)
+  return response
+}

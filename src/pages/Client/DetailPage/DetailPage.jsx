@@ -1,40 +1,150 @@
+import { useEffect, useState } from 'react'
+import { get } from 'react-hook-form'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { getRoomDetailAPI, getRoomsAPI } from '~/apis'
 import detailRoomImage from '~/assets/detailRoom.jpg'
+import { AMENITIES, API_ROOT, DEFAULT_ROOM_NUMBER } from '~/utils/constants'
 
 function DetailPage() {
-  const amenities = ['Near park', 'Near theater', 'Near Hotel', 'Clean Hotel']
-  const rooms = [
-    { title: 'Superior room - Double bed or 2 twin beds', price: 240 },
-    { title: 'Superior room - City view - 1 double bed or 2 twin beds', price: 280 },
-    { title: 'Superior room - City view - 2 twin beds', price: 320 },
-    { title: 'Superior room - City view - 1 double bed or 2 twin beds', price: 350 }
-  ]
+  const amenities = AMENITIES
+  const { id } = useParams()
+  const [comments, setComments] = useState([])
+  const [room, setRoom] = useState({})
+  const [maxRoomNum, setMaxRoomNum] = useState(0)
+  const [roomNum, setRoomNum] = useState(DEFAULT_ROOM_NUMBER)
+  const [roomsList, setRoomsList] = useState([])
+  const [checkin, setCheckin] = useState('')
+  const [checkout, setCheckout] = useState('')
+  const [guests, setGuests] = useState('')
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const params = {}
+  const handleBooking = (e) => {
+    e.preventDefault()
+  }
+
+  const handleViewRoom = (id) => (e) => {
+    e.preventDefault()
+    let params = '?'
+    if (checkin) params += `&checkin=${checkin}`
+    if (checkout) params += `&checkout=${checkout}`
+    if (guests) params += `&guests=${guests}`
+    if (checkin || checkout || guests) {
+      navigate(`/rooms/detail/${id}`+ params)
+    } else {
+      navigate(`/rooms/detail/${id}`)
+    }
+  }
+
+  const handleLoadMore = (e) => {
+    e.preventDefault()
+    setRoomNum((prev) => {
+      if (prev + DEFAULT_ROOM_NUMBER <= maxRoomNum) {
+        return prev + DEFAULT_ROOM_NUMBER
+      } else {
+        return maxRoomNum
+      }
+    })
+  }
+  useEffect(() => {
+    const checkinParam = searchParams.get('checkin')
+    const checkoutParam = searchParams.get('checkout')
+    const guestsParam = searchParams.get('guests')
+
+    if (checkinParam) setCheckin(checkinParam)
+    if (checkoutParam) setCheckout(checkoutParam)
+    if (guestsParam) {
+      setGuests(guestsParam)
+      params.guests = guestsParam
+    }
+
+    getRoomDetailAPI(id).then((res) => {
+      if (res.status === 200) {
+        setRoom(res.data.data.room)
+        setComments(res.data.data.comments)
+      } else {
+        console.error('Failed to fetch room details')
+      }
+    })
+    getRoomsAPI(params).then((res) => {
+      if (res.status === 200) {
+        setMaxRoomNum(res.data.data.length)
+        setRoomsList(res.data.data.slice(0, roomNum))
+      } else {
+        console.error('Failed to fetch all rooms')
+      }
+    })
+  }, [roomNum])
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-4">
       {/* Hotel Title & Price */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">CVK Park Bosphorus Hotel Istanbul</h1>
+          <h1 className="text-4xl font-bold text-mainColor-600">{room.name}</h1>
           <p className="text-sm text-gray-600"> 4.2 rating • 370+ reviews</p>
         </div>
-        <div className="text-right">
-          <p className="text-lg font-bold text-red-500">$240<span className="text-sm font-normal">/night</span></p>
-          <button className='bg-mainColor-600 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>Book now</button>
+        <div className="text-right flex flex-col items-center">
+          <p className="text-3xl font-bold text-mainColor1-900">${room.price_per_night}<span className="text-lg font-normal">/night</span></p>
+          <p className='text-xl font-semibold text-mainColor1-500'>Max Guests: {room.max_guests}</p>
         </div>
       </div>
 
       {/* Image Gallery */}
       <div className="w-full h-[550px]">
-        <img className="col-span-2 rounded-lg object-cover w-full h-full" src={detailRoomImage} alt="Main hotel" />
+        <img className="col-span-2 rounded-lg object-cover w-full h-full" src={room.image_url} alt="" />
+      </div>
+
+      {/* Booking Form */}
+      <div className="flex items-center justify-center !mt-10 !mb-10">
+        <form onSubmit={handleBooking} className="bg-white shadow-xl rounded-2xl p-10 w-[90%] max-w-6xl">
+          <div className="grid grid-cols-4 gap-4 items-center">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="checkin" className='font-semibold text-mainColor-700'>Check in</label>
+              <input
+                type="date"
+                id='checkin'
+                name='checkin'
+                value={checkin}
+                onChange={(e) => setCheckin(e.target.value)}
+                className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'/>
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="checkout" className='font-semibold text-mainColor-700'>Check out</label>
+              <input
+                type="date"
+                id='checkout'
+                name='checkout'
+                value={checkout}
+                onChange={(e) => setCheckout(e.target.value)}
+                className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'/>
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="room-type" className='font-semibold text-mainColor-700'>Guests</label>
+              <select
+                id='room-type'
+                name='room-type'
+                value={guests}
+                onChange={(e) => setGuests(e.target.value)}
+                className="border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 text-mainColor-800">
+                <option value="" disabled selected className='text-sm'>--Select number of guests--</option>
+                {Array.from({ length: room.max_guests }, (_, index) => (
+                  <option key={index} value={index + 1}>
+                    {index + 1} Guest{index !== 0 ? 's' : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button type='submit' className='bg-mainColor-500 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-4'>Book Rooms</button>
+          </div>
+        </form>
       </div>
 
       {/* Overview */}
-      <div>
-        <h2 className="text-xl font-semibold mb-2">Description</h2>
+      <div className='!mb-10'>
+        <h2 className="text-3xl font-semibold mb-2 text-mainColor-600">Description</h2>
         <p className="text-gray-700 text-sm leading-relaxed">
-          Located in Taksim, the heart of Istanbul, the CVK Park Bosphorus Hotel Istanbul has fresh views of the shores of the historic Dolmabahçe Hotel. This
-          hotel offers luxury services and modern amenities for both business and leisure travelers. With elegant interiors, panoramic Bosphorus views,
-          and easy access to cultural landmarks, your stay here will be both luxurious and convenient.
+          {room.description}
         </p>
         <div className="mt-4 flex flex-wrap gap-4">
           <div className="p-4 bg-mainColor-200 text-center rounded-lg w-24">
@@ -49,19 +159,23 @@ function DetailPage() {
         </div>
       </div>
 
+
       {/* Available Rooms */}
       <div>
-        <h2 className="text-xl font-semibold mb-4">Available Rooms</h2>
+        <h2 className="text-3xl font-semibold mb-2 text-mainColor-600">Available Rooms</h2>
         <div className="space-y-4">
-          {rooms.map((room, idx) => (
-            <div key={idx} className="flex justify-between items-center border rounded-lg p-4">
-              <p className="text-mainColor-600 font-semibold">{room.title}</p>
+          {roomsList.map((room) => (
+            room.id != id && <div key={room.id} className="flex justify-between items-center border rounded-lg p-4">
+              <p className=" text-2xl text-mainColor-400 font-semibold">{room.name} <span className="text-sm text-mainColor1-400">(Max Guests: {room.max_guests})</span> </p>
               <div className="text-right">
-                <p className="text-md font-semibold">${room.price}<span className="text-sm">/night</span></p>
-                <button className='bg-mainColor-600 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>View</button>
+                <p className="text-lg text-mainColor1-800 font-semibold">${room.price_per_night}<span className="text-sm">/night</span></p>
+                <button onClick={handleViewRoom(room.id)} className='bg-mainColor-600 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>View</button>
               </div>
             </div>
           ))}
+          {roomNum < maxRoomNum && <div onClick={handleLoadMore} className='flex justify-center bg-mainColor-600 text-white px-4 rounded-sm w-full hover:bg-mainColor-800  hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2 mt-4'>
+            Load More
+          </div>}
         </div>
       </div>
 
@@ -85,9 +199,9 @@ function DetailPage() {
 
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-4xl font-bold">4.2</div>
+            <div className="text-4xl font-bold">{room.rating}</div>
             <div className="font-medium text-lg">Very good</div>
-            <p className="text-sm text-gray-500">371 verified reviews</p>
+            <p className="text-sm text-gray-500">{comments?.length} verified reviews</p>
           </div>
           <button className='bg-mainColor-600 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>
       Give your review
@@ -95,33 +209,25 @@ function DetailPage() {
         </div>
 
         <div className="divide-y mt-6">
-          {[...Array(6)].map((_, idx) => (
-            <div key={idx} className="py-4 flex items-start gap-4">
+          {comments.map((comment) => (
+            <div key={comment.id} className="py-4 flex items-start gap-4">
               <img
-                src={`https://i.pravatar.cc/40?img=${idx + 1}`}
+                src={API_ROOT + comment.avatar}
                 alt="User avatar"
                 className="w-10 h-10 rounded-full"
               />
               <div className="flex-1">
                 <div className="font-semibold text-sm">
-            5.0 Amazing <span className="text-gray-600 font-normal">| Omar Siphron</span>
+                  <span className="text-gray-600 font-semibold text-lg">  {comment.name}</span> | {comment.rating}⭐
                 </div>
                 <p className="text-gray-700 text-sm">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  {comment.content}
                 </p>
               </div>
-              <button className="text-gray-400 hover:text-gray-600">
-          🚩
-              </button>
             </div>
           ))}
         </div>
 
-        <div className="flex justify-center items-center gap-4 text-sm mt-6">
-          <button className="text-gray-400 hover:text-black">&lt;</button>
-          <span>1 of 40</span>
-          <button className="text-gray-400 hover:text-black">&gt;</button>
-        </div>
       </div>
 
       {/* Newsletter */}
