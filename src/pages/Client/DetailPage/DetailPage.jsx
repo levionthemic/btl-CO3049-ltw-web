@@ -1,12 +1,30 @@
 import { useEffect, useState } from 'react'
-import { get } from 'react-hook-form'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { getRoomDetailAPI, getRoomsAPI } from '~/apis'
-import detailRoomImage from '~/assets/detailRoom.jpg'
+import { bookRoomAPI, getRoomDetailAPI, getRoomsAPI } from '~/apis'
+import { useAuth } from '~/contexts/AuthContext'
 import { AMENITIES, API_ROOT, DEFAULT_ROOM_NUMBER } from '~/utils/constants'
+import Swal from 'sweetalert2'
+import { countDays, getTodayDate } from '~/utils/helpers'
+import { Copy } from 'lucide-react'
+
+import { Button } from '~/components/ui/button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '~/components/ui/dialog'
+import { Input } from '~/components/ui/input'
+import { Label } from '~/components/ui/label'
+
 
 function DetailPage() {
   const amenities = AMENITIES
+  const { currentUser, setUser } = useAuth()
   const { id } = useParams()
   const [comments, setComments] = useState([])
   const [room, setRoom] = useState({})
@@ -19,8 +37,43 @@ function DetailPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const params = {}
+
+
   const handleBooking = (e) => {
     e.preventDefault()
+    if (!checkin || !checkout || !guests) {
+      Swal.fire({
+        title: 'Oops...',
+        text: 'Please Fill All Fields!',
+        icon: 'error',
+        confirmButtonText: 'Try again'
+      })
+      return
+    }
+    const totalPrice = countDays(checkin, checkout) * room?.price_per_night
+    const bookingData = {
+      user_id : currentUser?.id,
+      room_id: id,
+      check_in_date: checkin,
+      check_out_date: checkout,
+      guests_count:guests,
+      total_price: totalPrice,
+      status: 'pending'
+    }
+    bookRoomAPI(bookingData).then(
+      (res) => {
+        if (res.status === 200) {
+          Swal.fire({
+            title: 'Booking Successful',
+            text: 'Your reservation has been confirmed!',
+            icon: 'success',
+            confirmButtonColor: '#3085d6'
+          })
+        } else {
+          console.error('Failed to book room')
+        }
+      }
+    )
   }
 
   const handleViewRoom = (id) => (e) => {
@@ -46,6 +99,8 @@ function DetailPage() {
       }
     })
   }
+
+
   useEffect(() => {
     const checkinParam = searchParams.get('checkin')
     const checkoutParam = searchParams.get('checkout')
@@ -92,7 +147,7 @@ function DetailPage() {
 
       {/* Image Gallery */}
       <div className="w-full h-[550px]">
-        <img className="col-span-2 rounded-lg object-cover w-full h-full" src={room.image_url} alt="" />
+        <img className="col-span-2 rounded-lg object-cover w-full h-full" src={API_ROOT + room.image_url} alt="" />
       </div>
 
       {/* Booking Form */}
@@ -107,6 +162,8 @@ function DetailPage() {
                 name='checkin'
                 value={checkin}
                 onChange={(e) => setCheckin(e.target.value)}
+                min = {getTodayDate()}
+                max={checkout || undefined}
                 className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'/>
             </div>
             <div className="flex flex-col gap-2">
@@ -117,6 +174,7 @@ function DetailPage() {
                 name='checkout'
                 value={checkout}
                 onChange={(e) => setCheckout(e.target.value)}
+                min={checkin || undefined}
                 className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'/>
             </div>
             <div className="flex flex-col gap-2">
@@ -203,9 +261,37 @@ function DetailPage() {
             <div className="font-medium text-lg">Very good</div>
             <p className="text-sm text-gray-500">{comments?.length} verified reviews</p>
           </div>
-          <button className='bg-mainColor-600 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className='bg-mainColor-600 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>
       Give your review
-          </button>
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-semibold text-mainColor-600">Review</DialogTitle>
+                <DialogDescription>
+            Give your feedback about our service
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex items-center space-x-3">
+                <textarea
+                  id="text"
+                  placeholder="Your review"
+                  className='w-full border px-2 py-2 focus:outline-2 focus:outline-mainColor-800'
+                />
+              </div>
+              <DialogFooter className="sm:justify-start">
+                <button type='submit' className='bg-mainColor-600 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>Send</button>
+                <DialogClose asChild>
+                  <Button type="button" variant="secondary">
+              Close
+                  </Button>
+                </DialogClose>
+
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <div className="divide-y mt-6">

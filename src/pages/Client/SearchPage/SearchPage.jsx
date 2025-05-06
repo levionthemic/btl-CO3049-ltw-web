@@ -1,47 +1,24 @@
 import backgroundImage from '~/assets/background.jpg'
-import sydneyImage from '~/assets/sydney.jpg'
-import istanbulImage from '~/assets/istanbul.jpg'
-import bakuImage from '~/assets/baku.jpg'
-import maleImage from '~/assets/male.jpg'
-import parisImage from '~/assets/paris.jpg'
-import melbourneImage from '~/assets/melbourne.jpg'
-import londonImage from '~/assets/london.jpg'
-import columbiaImage from '~/assets/columbia.jpg'
-import srilanka1Image from '~/assets/srilanka1.jpg'
-import srilanka2Image from '~/assets/srilanka2.jpg'
-import srilanka3Image from '~/assets/srilanka3.jpg'
-import srilanka4Image from '~/assets/srilanka4.jpg'
+
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getTodayDate } from '~/utils/helpers'
+import { getAllBookingAPI } from '~/apis'
+import { useAuth } from '~/contexts/AuthContext'
+import { API_ROOT, CITIES_SEARCH_PAGE, DEFAULT_BOOKING_NUMBER, SRILAKA_SEARCH_PAGE } from '~/utils/constants'
 
-const places = [
-  { name: 'Istanbul, Turkey', image: istanbulImage },
-  { name: 'Sydney, Australia', image: sydneyImage },
-  { name: 'Baku, Azerbaijan', image: bakuImage },
-  { name: 'Malé, Maldives', image: maleImage }
-]
-
-const cities = [
-  { name: 'Melbourne', image: melbourneImage, price: 700 },
-  { name: 'Paris', image: parisImage, price: 600 },
-  { name: 'London', image: londonImage, price: 800 },
-  { name: 'Columbia', image: columbiaImage, price: 900 }
-]
-
-const sriLankaImages = [
-  srilanka1Image,
-  srilanka2Image,
-  srilanka3Image,
-  srilanka4Image
-]
 
 function SearchPage() {
+  const cities = CITIES_SEARCH_PAGE
+
+  const sriLankaImages = SRILAKA_SEARCH_PAGE
   const navigate = useNavigate()
 
   const [checkin, setCheckin] = useState('')
   const [checkout, setCheckout] = useState('')
   const [guests, setGuests] = useState('')
-
+  const [bookings, setBookings] = useState([])
+  const { currentUser, setUser } = useAuth()
   const handleSubmit = (e) => {
     e.preventDefault()
     let params = '?'
@@ -54,6 +31,14 @@ function SearchPage() {
       navigate('/rooms')
     }
   }
+
+  useEffect(() => {
+    getAllBookingAPI(currentUser?.id).then(
+      (res) => {
+        setBookings(res.data.data.slice(-DEFAULT_BOOKING_NUMBER).reverse())
+      }
+    )
+  }, [])
 
   return (
     <div className="min-h-screen w-full bg-gray-50">
@@ -82,6 +67,8 @@ function SearchPage() {
                 id='checkin'
                 name='checkin'
                 value={checkin}
+                min={getTodayDate()}
+                max={checkout}
                 onChange={(e) => setCheckin(e.target.value)}
                 className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'/>
             </div>
@@ -92,6 +79,7 @@ function SearchPage() {
                 id='checkout'
                 name='checkout'
                 value={checkout}
+                min={checkin}
                 onChange={(e) => setCheckout(e.target.value)}
                 className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'/>
             </div>
@@ -123,17 +111,22 @@ function SearchPage() {
 
       {/* Recent Searches */}
       <div className="mt-40 px-10 flex flex-col items-center justify-center ">
-        <h2 className="text-3xl font-semibold text-mainColor-500 mb-10">Your recent searches</h2>
-        <div className="flex items-center justify-start gap-20">
-          {places.map((place, index) => (
-            <div key={index} className="flex flex-col justify-center bg-white rounded-lg shadow p-3 items-center cursor-pointer hover:scale-105 hover:duration-300 hover:ease-in-out transition-all hover:drop-shadow-lg">
+        <h2 className="text-3xl font-semibold text-mainColor-500 mb-10">Your recent bookings</h2>
+        <div className="flex items-center justify-start gap-10">
+          {bookings.map((booking) => (
+            <div key={booking?.id} className="flex flex-col w-64 justify-center bg-white rounded-lg shadow p-5 items-center cursor-pointer hover:scale-105 shadow-lg hover:duration-300 hover:ease-in-out transition-all hover:drop-shadow-lg">
               <img
-                src={place.image} // Replace with actual images
-                alt={place.name}
-                className="!aspect-square h-32 object-cover rounded-md mb-2"
+                src={API_ROOT + booking.image_url} // Replace with actual images
+                alt={booking.name}
+                className="!aspect-square h-48 object-cover rounded-md mb-2"
               />
-              <p className="font-medium text-mainColor-500">{place.name}</p>
-              <p className="text-sm text-gray-500">325 places</p>
+              <p className="font-bold text-3xl text-mainColor-600">{booking.name}</p>
+              <p> {booking.status == 'pending' ? <span className='text-mainColor1-400'>{booking.status}</span> : <span className='text-lg font-semibold text-mainColor1-800'>{booking.status}</span>}</p>
+              <p className="text-sm font-semibold  text-mainColor-300">From: {booking.check_in_date}</p>
+              <p className="text-sm font-semibold  text-mainColor-300">To: {booking.check_out_date}</p>
+              <p className="text-xl font-bold  text-mainColor1-900 my-3">${booking.total_price}</p>
+
+
             </div>
           ))}
         </div>

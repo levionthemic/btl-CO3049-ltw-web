@@ -1,16 +1,16 @@
-import clsx from "clsx";
-import { SearchIcon } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "~/assets/logo.png";
+import clsx from 'clsx'
+import { SearchIcon } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import logo from '~/assets/logo.png'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+  DropdownMenuTrigger
+} from '../ui/dropdown-menu'
+import { useState } from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,53 +20,58 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
-} from "../ui/alert-dialog";
-import { logoutUserAPI } from "~/apis";
-import { useAuth } from "~/contexts/AuthContext";
-import { API_ROOT } from "~/utils/constants";
+  AlertDialogTrigger
+} from '../ui/alert-dialog'
+import { logoutUserAPI } from '~/apis'
+import { useAuth } from '~/contexts/AuthContext'
+import { API_ROOT } from '~/utils/constants'
 
 const menus = [
   {
-    id: "menuitem1",
-    to: "/",
-    label: "Home",
+    id: 'menuitem1',
+    to: '/',
+    label: 'Home'
   },
   {
-    id: "menuitem2",
-    to: "/blog",
-    label: "Blog",
+    id: 'menuitem6',
+    to: '/search',
+    label: 'Search'
   },
   {
-    id: "menuitem3",
-    to: "/about-us",
-    label: "About Us",
+    id: 'menuitem2',
+    to: '/blog',
+    label: 'Blog'
   },
   {
-    id: "menuitem4",
-    to: "/contact",
-    label: "Contact",
+    id: 'menuitem3',
+    to: '/about-us',
+    label: 'About Us'
   },
   {
-    id: "menuitem5",
-    to: "/faq",
-    label: "FAQ",
+    id: 'menuitem4',
+    to: '/contact',
+    label: 'Contact'
   },
-];
+  {
+    id: 'menuitem5',
+    to: '/faq',
+    label: 'FAQ'
+  }
+]
 
 function Header() {
-  const navigate = useNavigate();
-  const pathname = useLocation().pathname;
+  const navigate = useNavigate()
+  const pathname = useLocation().pathname
 
-  const { currentUser, logout } = useAuth();
+  const { currentUser, logout } = useAuth()
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const handleLogout = () => {
     logoutUserAPI().then(() => {
-      logout();
-    });
-  };
+      logout()
+    })
+  }
 
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#F4EFE6] px-10 py-2">
@@ -74,7 +79,7 @@ function Header() {
         <img
           src={logo}
           className="w-20 cursor-pointer"
-          onClick={() => navigate("/")}
+          onClick={() => navigate('/')}
         />
       </div>
 
@@ -95,8 +100,8 @@ function Header() {
           {menus.map((menuItem) => (
             <Link
               key={menuItem.id}
-              className={clsx("text-sm font-medium leading-normal menu-item", {
-                "menu-item-active": pathname === menuItem.to,
+              className={clsx('text-sm font-medium leading-normal menu-item', {
+                'menu-item-active': pathname === menuItem.to
               })}
               to={menuItem.to}
             >
@@ -115,7 +120,7 @@ function Header() {
                 <div className="flex items-center gap-1">
                   <div>Hello,</div>
                   <div className="font-semibold">
-                    {currentUser?.name || "Ẩn danh"}
+                    {currentUser?.name || 'Ẩn danh'}
                   </div>
                 </div>
               </div>
@@ -123,7 +128,7 @@ function Header() {
             <DropdownMenuContent className="w-56">
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => navigate("/account")}
+                onClick={() => navigate('/account')}
               >
                 Profile
               </DropdownMenuItem>
@@ -133,7 +138,7 @@ function Header() {
                   <DropdownMenuItem
                     className="text-destructive hover:!bg-destructive/10 hover:!text-destructive cursor-pointer"
                     onSelect={(event) => {
-                      event.preventDefault();
+                      event.preventDefault()
                     }}
                   >
                     Logout
@@ -162,13 +167,13 @@ function Header() {
           <div className="flex gap-2">
             <button
               className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-mainColor-600 text-[#FFFFFF] text-sm font-bold leading-normal tracking-[0.015em] hover:scale-105 hover:duration-300 hover:ease-in-out transition-all"
-              onClick={() => navigate("/register")}
+              onClick={() => navigate('/register')}
             >
               <span className="truncate">Sign Up</span>
             </button>
             <button
               className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#F4EFE6] text-[#1C160C] text-sm font-bold leading-normal tracking-[0.015em] hover:scale-105 hover:duration-300 hover:ease-in-out transition-all"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate('/login')}
             >
               <span className="truncate">Log In</span>
             </button>
@@ -176,7 +181,7 @@ function Header() {
         )}
       </div>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header

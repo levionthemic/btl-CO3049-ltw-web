@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getRoomsAPI } from '~/apis'
-import { DEFAULT_ROOM_NUMBER } from '~/utils/constants'
+import { API_ROOT, DEFAULT_ROOM_NUMBER } from '~/utils/constants'
+import { getTodayDate } from '~/utils/helpers'
 
 
 function ListPage() {
+  const [rooms, setRooms] = useState([])
   const [currentRooms, setCurrentRooms] = useState([])
   const [checkin, setCheckin] = useState('')
   const [checkout, setCheckout] = useState('')
@@ -18,7 +20,7 @@ function ListPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  const [roomNum, setRoomNum] = useState(DEFAULT_ROOM_NUMBER)
+  const [roomNum, setRoomNum] = useState(0)
   const [maxRoomNum, setMaxRoomNum] = useState(0)
 
   const handleMinChange = (e) => {
@@ -110,15 +112,18 @@ function ListPage() {
 
     getRoomsAPI(params).then((res) => {
       setMaxRoomNum(res.data.data.length)
-      setCurrentRooms(res.data.data.slice(0, roomNum))
+      setRooms(res.data.data)
       if (res.data.data.length < DEFAULT_ROOM_NUMBER) {
         setRoomNum(res.data.data.length)
       } else {
         setRoomNum(DEFAULT_ROOM_NUMBER)
       }
     })
-  }, [searchParams, roomNum])
+  }, [searchParams])
 
+  useEffect(() => {
+    setCurrentRooms(rooms.slice(0, roomNum))
+  }, [roomNum])
 
   return (
     <div className="min-h-screen w-full bg-gray-50 font-sans relative">
@@ -132,6 +137,8 @@ function ListPage() {
                 id='checkin'
                 name='checkin'
                 value={checkin}
+                max={checkout}
+                min={getTodayDate()}
                 onChange={(e) => setCheckin(e.target.value)}
                 className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'/>
             </div>
@@ -142,6 +149,7 @@ function ListPage() {
                 id='checkout'
                 name='checkout'
                 value={checkout}
+                min={checkin}
                 onChange={(e) => setCheckout(e.target.value)}
                 className='border !border-mainColor-600 hover:!border-2 hover:!border-mainColor-700 outline-mainColor-600 rounded-md p-2 placeholder:!text-mainColor-200 text-mainColor-800'/>
             </div>
@@ -264,7 +272,7 @@ function ListPage() {
             {currentRooms.map((room) => (
               <div key={room.id} className="bg-white shadow p-4 rounded-lg flex gap-4">
                 <img
-                  src={room.image_url}
+                  src={API_ROOT + room.image_url}
                   alt={room.name}
                   className="w-48 h-32 object-cover rounded"
                 />

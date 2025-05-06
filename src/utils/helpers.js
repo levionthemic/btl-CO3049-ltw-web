@@ -21,4 +21,19 @@ export const calculateChildrenHeight = (el, deep = false) => {
   return height
 }
 
+export const countDays = (startDateStr, endDateStr) => {
+  const start = new Date(startDateStr)
+  const end = new Date(endDateStr)
+  const diffTime = Math.abs(end - start)
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+}
+
+export const getTodayDate = () => {
+  const today = new Date()
+  const yyyy = today.getFullYear()
+  const mm = String(today.getMonth() + 1).padStart(2, '0')
+  const dd = String(today.getDate()).padStart(2, '0')
+  return `${yyyy}-${mm}-${dd}`
+}
+
 export default (window) => window.innerWidth > 1200
