@@ -25,8 +25,10 @@ const PrivateRoute = ({ user }) => {
   return <Outlet />
 }
 
+
 function App() {
   const { currentUser } = useAuth()
+
   return (
     <Routes>
       <Route path="/login" element={<LoginForm />} />
@@ -52,7 +54,6 @@ function App() {
           <Route path='search' element={<SearchPage />} />
           <Route path='rooms' element={<ListPage />} />
           <Route path='rooms/detail/:id' element={<DetailPage />} />
-          <Route path="contact" element={<ContactPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="customer" element={<CustomerPage />} />
 
