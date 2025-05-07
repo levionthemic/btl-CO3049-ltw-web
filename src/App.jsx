@@ -14,6 +14,9 @@ import Page404 from './pages/Page404/Page404'
 import Account from './pages/Account/Account'
 import ResetPassword from './pages/Auth/ResetPassword'
 import VerifyCode from './pages/Auth/VerifyCode'
+import SearchPage from './pages/Client/SearchPage/SearchPage'
+import ListPage from './pages/Client/ListPage/ListPage'
+import DetailPage from './pages/Client/DetailPage/DetailPage'
 import FaqPage from './pages/Client/FaqPage/FaqPage'
 import { useAuth } from './contexts/AuthContext'
 
@@ -24,36 +27,41 @@ const PrivateRoute = ({ user }) => {
 
 function App() {
   const { currentUser } = useAuth()
+
   return (
     <Routes>
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/register" element={<RegisterForm />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/verify-code" element={<VerifyCode />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path='/login' element={<LoginForm />} />
+      <Route path='/register' element={<RegisterForm />} />
+      <Route path='/forgot-password' element={<ForgotPassword />} />
+      <Route path='/verify-code' element={<VerifyCode />} />
+      <Route path='/reset-password' element={<ResetPassword />} />
 
       {/* Test page */}
-      <Route path="/test" element={<TestPage />}></Route>
+      <Route path='/test' element={<TestPage />}></Route>
 
       <Route path='/' element={<ClientLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="contact" element={<ContactPage />} />
+        <Route path='contact' element={<ContactPage />} />
 
-        <Route path="about-us" element={<AboutUsPage />} />
-        <Route path="faq" element={<FaqPage />} />
+        <Route path='about-us' element={<AboutUsPage />} />
+        <Route path='faq' element={<FaqPage />} />
       </Route>
 
       <Route element={<PrivateRoute user={currentUser} />}>
         <Route path='/' element={<ClientLayout />}>
-          <Route path="settings" element={<SettingsPage />} />
-          <Route path="customer" element={<CustomerPage />} />
+          <Route index element={<HomePage />} />
+          <Route path='search' element={<SearchPage />} />
+          <Route path='rooms' element={<ListPage />} />
+          <Route path='rooms/detail/:id' element={<DetailPage />} />
+          <Route path='settings' element={<SettingsPage />} />
+          <Route path='customer' element={<CustomerPage />} />
 
           {/* Account Flow */}
-          <Route path="account" element={<Account />} />
+          <Route path='account' element={<Account />} />
         </Route>
       </Route>
 
-      <Route path="*" element={<Page404 />} />
+      <Route path='*' element={<Page404 />} />
     </Routes>
   )
 }

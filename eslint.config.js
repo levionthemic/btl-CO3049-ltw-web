@@ -3,6 +3,7 @@ import globals from 'globals'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+import prettier from 'eslint-plugin-prettier'
 
 export default [
   { ignores: ['dist'] },
@@ -21,7 +22,8 @@ export default [
     plugins: {
       react,
       'react-hooks': reactHooks,
-      'react-refresh': reactRefresh
+      'react-refresh': reactRefresh,
+      prettier
     },
     rules: {
       // React
@@ -54,14 +56,7 @@ export default [
       'comma-dangle': 1,
       'comma-spacing': 1,
       'arrow-spacing': 1,
-
-      // MUI
-      'no-restricted-imports': [
-        'error',
-        {
-          'patterns': ['@mui/*/*/*']
-        }
-      ]
+      'prettier/prettier': 'warn'
     }
   }
 ]
