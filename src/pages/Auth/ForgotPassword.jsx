@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import clsx from 'clsx'
 import { forgotPasswordAPI } from '~/apis'
+import { toast } from 'sonner'
 
 function ForgotPassword() {
   const formSchema = z.object({
@@ -31,9 +32,13 @@ function ForgotPassword() {
   const navigate = useNavigate()
 
   const onSubmit = (data) => {
-    forgotPasswordAPI(data).then((res) => {
-      if (!res.errors) {
-        navigate('/verify-code', { state: { email: data.email } })
+    toast.promise(forgotPasswordAPI(data), {
+      loading: 'Verifying email...',
+      success: (res) => {
+        if (!res.error) {
+          navigate('/verify-code', { state: { email: data.email } })
+          return 'Email valid!'
+        }
       }
     })
   }

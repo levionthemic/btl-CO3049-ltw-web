@@ -10,14 +10,17 @@ function VerifyCode() {
   const navigate = useNavigate()
 
   const email = useLocation()?.state?.email
-  const onSubmit = () => {
-    const data = { email, verifyCode }
+  const onSubmit = (e) => {
+    e.preventDefault()
+    const data = { email, otp: verifyCode }
 
     toast.promise(verifyCodeAPI(data), {
       loading: 'Verifying...',
       success: (res) => {
         if (!res.error) {
-          navigate(`/reset-password?resetToken=${res.data.resetToken}`)
+          navigate(`/reset-password?resetToken=${res.data.resetToken}`, {
+            replace: true
+          })
           return 'Verify code Successfully!'
         }
         throw res
