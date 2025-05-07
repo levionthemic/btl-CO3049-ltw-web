@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { bookRoomAPI, getRoomDetailAPI, getRoomsAPI } from '~/apis'
+import { bookRoomAPI, getRoomDetailAPI, getRoomsAPI, sendReviewRoomAPI } from '~/apis'
 import { useAuth } from '~/contexts/AuthContext'
 import { AMENITIES, API_ROOT, DEFAULT_ROOM_NUMBER } from '~/utils/constants'
 import Swal from 'sweetalert2'
 import { countDays, getTodayDate } from '~/utils/helpers'
-import { Copy } from 'lucide-react'
+import { Star } from 'lucide-react'
 
 import { Button } from '~/components/ui/button'
 import {
@@ -18,11 +18,10 @@ import {
   DialogTitle,
   DialogTrigger
 } from '~/components/ui/dialog'
-import { Input } from '~/components/ui/input'
-import { Label } from '~/components/ui/label'
 
 
 function DetailPage() {
+  const dialogCloseRef = useRef(null)
   const amenities = AMENITIES
   const { currentUser, setUser } = useAuth()
   const { id } = useParams()
@@ -37,7 +36,9 @@ function DetailPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const params = {}
-
+  const [rating, setRating] = useState(0)
+  const [hover, setHover] = useState(0)
+  const [reviewContent, setReviewContent] = useState('')
 
   const handleBooking = (e) => {
     e.preventDefault()
@@ -70,7 +71,12 @@ function DetailPage() {
             confirmButtonColor: '#3085d6'
           })
         } else {
-          console.error('Failed to book room')
+          Swal.fire({
+            title: 'Oops...',
+            text: 'Failed to book this Room!',
+            icon: 'error',
+            confirmButtonText: 'Try again'
+          })
         }
       }
     )
@@ -100,6 +106,28 @@ function DetailPage() {
     })
   }
 
+  const handleSubmitReview = (e) => {
+    e.preventDefault()
+    const reviewData = {
+      user_id : currentUser?.id,
+      room_id : id,
+      content: reviewContent,
+      rating: rating
+    }
+    sendReviewRoomAPI(reviewData).then((res) => {
+      if (res.status === 200) {
+        setComments((prevComments) => [res.data.data, ...prevComments])
+        dialogCloseRef.current?.click()
+      } else {
+        Swal.fire({
+          title: 'Oops...',
+          text: 'Failed to send Review!',
+          icon: 'error',
+          confirmButtonText: 'Try again'
+        })
+      }
+    })
+  }
 
   useEffect(() => {
     const checkinParam = searchParams.get('checkin')
@@ -116,7 +144,7 @@ function DetailPage() {
     getRoomDetailAPI(id).then((res) => {
       if (res.status === 200) {
         setRoom(res.data.data.room)
-        setComments(res.data.data.comments)
+        setComments(res.data.data.comments.reverse())
       } else {
         console.error('Failed to fetch room details')
       }
@@ -193,7 +221,7 @@ function DetailPage() {
                 ))}
               </select>
             </div>
-            <button type='submit' className='bg-mainColor-500 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-4'>Book Rooms</button>
+            <button type='submit' className='bg-mainColor-400 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-4'>Book Rooms</button>
           </div>
         </form>
       </div>
@@ -227,11 +255,11 @@ function DetailPage() {
               <p className=" text-2xl text-mainColor-400 font-semibold">{room.name} <span className="text-sm text-mainColor1-400">(Max Guests: {room.max_guests})</span> </p>
               <div className="text-right">
                 <p className="text-lg text-mainColor1-800 font-semibold">${room.price_per_night}<span className="text-sm">/night</span></p>
-                <button onClick={handleViewRoom(room.id)} className='bg-mainColor-600 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>View</button>
+                <button onClick={handleViewRoom(room.id)} className='bg-mainColor-400 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>View</button>
               </div>
             </div>
           ))}
-          {roomNum < maxRoomNum && <div onClick={handleLoadMore} className='flex justify-center bg-mainColor-600 text-white px-4 rounded-sm w-full hover:bg-mainColor-800  hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2 mt-4'>
+          {roomNum < maxRoomNum && <div onClick={handleLoadMore} className='flex justify-center cursor-pointer bg-mainColor-400 text-white px-4 rounded-sm w-full hover:bg-mainColor-800  hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2 mt-4'>
             Load More
           </div>}
         </div>
@@ -263,28 +291,50 @@ function DetailPage() {
           </div>
           <Dialog>
             <DialogTrigger asChild>
-              <button className='bg-mainColor-600 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>
+              <button className='bg-mainColor-400 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>
       Give your review
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle className="text-2xl font-semibold text-mainColor-600">Review</DialogTitle>
+                <DialogTitle className="text-3xl font-bold text-mainColor-600">Review</DialogTitle>
                 <DialogDescription>
             Give your feedback about our service
                 </DialogDescription>
               </DialogHeader>
+
+              {/* Rating stars */}
+              <div className="flex flex-col mb-1">
+                <div className='text-lg font-semibold mb-1 text-mainColor1-700'>Rating</div>
+                <div className='flex space-x-1'>
+                  {[...Array(5)].map((_, index) => (
+                    <Star
+                      key={index}
+                      onClick={() => setRating(index + 1)}
+                      onMouseEnter={() => setHover(index + 1)}
+                      onMouseLeave={() => setHover(0)}
+                      className={`cursor-pointer w-6 h-6 transition-colors duration-200 ${
+                        (hover || rating) > index ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'
+                      }`}
+                    />
+                  ))}
+                </div>
+
+              </div>
+
               <div className="flex items-center space-x-3">
                 <textarea
                   id="text"
-                  placeholder="Your review"
-                  className='w-full border px-2 py-2 focus:outline-2 focus:outline-mainColor-800'
+                  placeholder="Your review..."
+                  value={reviewContent}
+                  onChange={(e) => setReviewContent(e.target.value)}
+                  className='w-full border-2 px-2 py-2 focus:outline-2 focus:outline-mainColor-800 text-mainColor-700'
                 />
               </div>
               <DialogFooter className="sm:justify-start">
-                <button type='submit' className='bg-mainColor-600 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>Send</button>
+                <button type='submit' onClick={handleSubmitReview} className='bg-mainColor-600 text-white px-4 rounded hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>Send</button>
                 <DialogClose asChild>
-                  <Button type="button" variant="secondary">
+                  <Button ref={dialogCloseRef} type="button" variant="secondary">
               Close
                   </Button>
                 </DialogClose>
@@ -300,7 +350,7 @@ function DetailPage() {
               <img
                 src={API_ROOT + comment.avatar}
                 alt="User avatar"
-                className="w-10 h-10 rounded-full"
+                className="w-10 h-10 rounded-full object-cover"
               />
               <div className="flex-1">
                 <div className="font-semibold text-sm">

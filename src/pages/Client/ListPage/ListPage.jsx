@@ -257,7 +257,7 @@ function ListPage() {
             </div>
           </div>
 
-          <button type='submit' className="text-white font-bold bg-mainColor-600 w-full py-2 rounded-lg text-xl mt-3 hover:scale-105 hover:bg-mainColor-800 hover:ease-in-out duration-300 transition-all">Done</button>
+          <button type='submit' className="text-white font-bold bg-mainColor-500 w-full py-2 rounded-lg text-xl mt-3 hover:scale-105 hover:bg-mainColor-800 hover:ease-in-out duration-300 transition-all">Done</button>
         </div>
 
         {/* Main Content */}
@@ -294,7 +294,7 @@ function ListPage() {
                     <br /> excl. tax
                   </p>
                   <div className="flex gap-2 mt-2">
-                    <button onClick={handleViewRoom(room.id)} className='bg-mainColor-600 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>
+                    <button onClick={handleViewRoom(room.id)} className='bg-mainColor-500 text-white px-4 rounded w-full hover:bg-mainColor-800 hover:scale-105 hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2'>
                     View Room
                     </button>
                   </div>
@@ -302,7 +302,7 @@ function ListPage() {
               </div>
             ))}
           </div>
-          {roomNum < maxRoomNum && <div onClick={handleLoadMore} className='flex justify-center bg-mainColor-600 text-white px-4 rounded-sm w-full hover:bg-mainColor-800  hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2 mt-4'>
+          {roomNum < maxRoomNum && <div onClick={handleLoadMore} className='flex justify-center cursor-pointer bg-mainColor-400 text-white text-xl font-semibold px-4 rounded-sm w-full hover:bg-mainColor-800  hover:drop-shadow-lg hover:duration-300 hover:ease-in-out transition-all py-2 mt-4'>
             Load More
           </div>}
 
