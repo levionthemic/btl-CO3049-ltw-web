@@ -74,29 +74,29 @@ function Header() {
   }
 
   return (
-    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#F4EFE6] px-10 py-2">
-      <div className="flex items-center gap-4 text-[#1C160C]">
+    <header className='flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#F4EFE6] px-10 py-2 sticky top-0 left-0 z-10 bg-white shadow-md'>
+      <div className='flex items-center gap-4 text-[#1C160C]'>
         <img
           src={logo}
-          className="w-20 cursor-pointer"
+          className='w-20 cursor-pointer'
           onClick={() => navigate('/')}
         />
       </div>
 
-      <form action="" className="flex-1 flex justify-center">
-        <div className="relative w-[80%]">
+      <form action='' className='flex-1 flex justify-center'>
+        <div className='relative w-[80%]'>
           <input
-            type="text"
-            className="!ps-9 border rounded-lg hover:border-2 !border-mainColor-600 hover:border-mainColor-600 outline-mainColor-600 w-full p-1"
+            type='text'
+            className='!ps-9 border rounded-lg hover:border-2 !border-mainColor-600 hover:border-mainColor-600 outline-mainColor-600 w-full p-1'
           />
-          <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-2.5 peer-disabled:opacity-50 text-mainColor-500">
-            <SearchIcon size={16} aria-hidden="true" />
+          <div className='text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-2.5 peer-disabled:opacity-50 text-mainColor-500'>
+            <SearchIcon size={16} aria-hidden='true' />
           </div>
         </div>
       </form>
 
-      <div className="flex justify-end gap-8">
-        <div className="flex items-center gap-9">
+      <div className='flex justify-end gap-8'>
+        <div className='flex items-center gap-9'>
           {menus.map((menuItem) => (
             <Link
               key={menuItem.id}
@@ -112,22 +112,22 @@ function Header() {
         {currentUser ? (
           <DropdownMenu open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger asChild>
-              <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-200 p-1.5 rounded-lg hover:duration-300 hover:ease-in-out transition-all">
+              <div className='flex items-center gap-3 cursor-pointer hover:bg-gray-200 p-1.5 rounded-lg hover:duration-300 hover:ease-in-out transition-all'>
                 <Avatar>
                   <AvatarImage src={API_ROOT + currentUser?.avatar} />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <div className="flex items-center gap-1">
+                <div className='flex items-center gap-1'>
                   <div>Hello,</div>
-                  <div className="font-semibold">
+                  <div className='font-semibold'>
                     {currentUser?.name || 'Ẩn danh'}
                   </div>
                 </div>
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
+            <DropdownMenuContent className='w-56'>
               <DropdownMenuItem
-                className="cursor-pointer"
+                className='cursor-pointer'
                 onClick={() => navigate('/account')}
               >
                 Profile
@@ -136,7 +136,7 @@ function Header() {
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <DropdownMenuItem
-                    className="text-destructive hover:!bg-destructive/10 hover:!text-destructive cursor-pointer"
+                    className='text-destructive hover:!bg-destructive/10 hover:!text-destructive cursor-pointer'
                     onSelect={(event) => {
                       event.preventDefault()
                     }}
@@ -164,18 +164,18 @@ function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <div className="flex gap-2">
+          <div className='flex gap-2'>
             <button
-              className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-mainColor-600 text-[#FFFFFF] text-sm font-bold leading-normal tracking-[0.015em] hover:scale-105 hover:duration-300 hover:ease-in-out transition-all"
+              className='flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-mainColor-600 text-[#FFFFFF] text-sm font-bold leading-normal tracking-[0.015em] hover:scale-105 hover:duration-300 hover:ease-in-out transition-all'
               onClick={() => navigate('/register')}
             >
-              <span className="truncate">Sign Up</span>
+              <span className='truncate'>Sign Up</span>
             </button>
             <button
-              className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#F4EFE6] text-[#1C160C] text-sm font-bold leading-normal tracking-[0.015em] hover:scale-105 hover:duration-300 hover:ease-in-out transition-all"
+              className='flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#F4EFE6] text-[#1C160C] text-sm font-bold leading-normal tracking-[0.015em] hover:scale-105 hover:duration-300 hover:ease-in-out transition-all'
               onClick={() => navigate('/login')}
             >
-              <span className="truncate">Log In</span>
+              <span className='truncate'>Log In</span>
             </button>
           </div>
         )}
