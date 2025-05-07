@@ -14,12 +14,13 @@ import {
 import clsx from 'clsx'
 import { loginUserAPI } from '~/apis'
 import { toast } from 'sonner'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '~/contexts/AuthContext'
 
 function LoginForm() {
   const navigate = useNavigate()
   const { currentUser, setUser } = useAuth()
+  const [rememberMe, setRememberMe] = useState(false)
 
   const formSchema = z.object({
     email: z
@@ -41,7 +42,7 @@ function LoginForm() {
   })
 
   const handleLogin = (data) => {
-    toast.promise(loginUserAPI(data), {
+    toast.promise(loginUserAPI({ ...data, rememberMe: rememberMe }), {
       loading: 'Login is in progress...',
       success: (res) => {
         if (!res.error) {
@@ -135,6 +136,8 @@ function LoginForm() {
                   name='remember'
                   value='remember'
                   className='w-4 h-4'
+                  checked={rememberMe}
+                  onChange={() => setRememberMe((prev) => !prev)}
                 />
                 <label
                   className='text-sm font-semibold cursor-pointer'

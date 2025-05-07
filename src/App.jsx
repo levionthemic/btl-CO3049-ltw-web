@@ -19,6 +19,7 @@ import ListPage from './pages/Client/ListPage/ListPage'
 import DetailPage from './pages/Client/DetailPage/DetailPage'
 import FaqPage from './pages/Client/FaqPage/FaqPage'
 import { useAuth } from './contexts/AuthContext'
+import { initLogout } from '~/utils/authorizedAxios'
 
 const PrivateRoute = ({ user }) => {
   if (!user) return <Navigate to='/login' replace={true} />
@@ -26,7 +27,8 @@ const PrivateRoute = ({ user }) => {
 }
 
 function App() {
-  const { currentUser } = useAuth()
+  const { currentUser, logout } = useAuth()
+  initLogout(logout)
 
   return (
     <Routes>
