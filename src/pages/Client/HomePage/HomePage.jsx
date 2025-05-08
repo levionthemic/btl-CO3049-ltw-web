@@ -141,7 +141,7 @@ function HomePage() {
           <div className='w-full h-[50vh] mt-8  border-[10px] border-mainColor-500'>
             <iframe
               title='Google Map'
-              src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.835434509374!2d144.9537353153169!3d-37.81627997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577d9f0b1a0b1b!2sFederation%20Square!5e0!3m2!1svi!2s!4v1611816753437!5m2!1svi!2s'
+              src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.508074992505!2d106.65522497451708!3d10.772344259270039!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752ec3c161a3fb%3A0xef77cd47a1cc691e!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBCw6FjaCBraG9hIC0gxJDhuqFpIGjhu41jIFF14buRYyBnaWEgVFAuSENN!5e0!3m2!1svi!2s!4v1746676686932!5m2!1svi!2s'
               style={{ border: 0 }}
               allowFullScreen=''
               loading='lazy'

@@ -123,7 +123,7 @@ function ListPage() {
 
   useEffect(() => {
     setCurrentRooms(rooms.slice(0, roomNum))
-  }, [roomNum])
+  }, [roomNum, rooms])
 
   return (
     <div className="min-h-screen w-full bg-gray-50 font-sans relative">

@@ -114,7 +114,7 @@ function SearchPage() {
         <h2 className="text-3xl font-semibold text-mainColor-500 mb-10">Your recent bookings</h2>
         <div className="flex items-center justify-start gap-10">
           {bookings.map((booking) => (
-            <div key={booking?.id} className="flex flex-col w-64 justify-center bg-white rounded-lg shadow p-5 items-center cursor-pointer hover:scale-105 shadow-lg hover:duration-300 hover:ease-in-out transition-all hover:drop-shadow-lg">
+            <div key={booking?.id} className="flex flex-col w-64 justify-center bg-white rounded-lg p-5 items-center cursor-pointer hover:scale-105 shadow-lg hover:duration-300 hover:ease-in-out transition-all hover:drop-shadow-lg">
               <img
                 src={API_ROOT + booking.image_url} // Replace with actual images
                 alt={booking.name}
