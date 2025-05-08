@@ -137,23 +137,24 @@ export const updateUserAPI = async (data) => {
  * @author Khiem
  */
 export const fetchAllNewsAPI = async () => {
-  const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/blog`, {
-    params: { action: 'list' }
-  })
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/blog`)
   return response
 }
 
 export const fetchNewsDetailAPI = async (id) => {
-  const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/blog`, {
-    params: { action: 'detail', id }
-  })
+  const response = await authorizedAxiosInstance.get(
+    `${API_ROOT}/api/blog/${id}`
+  )
   return response
 }
 
 export const searchNewsAPI = async (keyword) => {
-  const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/blog`, {
-    params: { action: 'search', keyword }
-  })
+  const response = await authorizedAxiosInstance.get(
+    `${API_ROOT}/api/blog/search`,
+    {
+      params: { keyword }
+    }
+  )
   return response
 }
 
