@@ -1,8 +1,17 @@
+<<<<<<< Updated upstream
 import { useState } from 'react'
 import Header from '~/components/Header/Header'
 import Footer from '~/components/Footer/Footer'
 import axios from 'axios'
 import sanitizeInput from '~/utils/inputSanitizer.js'
+=======
+import { useState, useEffect } from "react";
+import Header from "~/components/Header/Header";
+import Footer from "~/components/Footer/Footer";
+import axios from "axios";
+import sanitizeInput from "~/utils/inputSanitizer.js";
+import { use } from "react";
+>>>>>>> Stashed changes
 
 function ContactPage() {
   const [isSubmited, setIsSubmited] = useState(false)
@@ -12,6 +21,12 @@ function ContactPage() {
     message: ''
   })
 
+  const [hotelInfo, setHotelInfo] = useState({
+    hotelName: "",
+    phoneNumber: "",
+    address: "",
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prevData) => ({
@@ -19,6 +34,25 @@ function ContactPage() {
       [name]: sanitizeInput(value)
     }))
   }
+
+  useEffect(() => {
+    axios
+      .get("http://localhost/api/settings/latest")
+      .then((response) => {
+        const data = response.data;
+        setHotelInfo({
+          hotelName: data.hotel_name || "",
+          phoneNumber: data.phone_number || "",
+          address: data.address || "",
+        });
+      })
+      .catch((error) => {
+        console.error(
+          "Error fetching settings:",
+          error.response?.data || error.message
+        );
+      });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -144,16 +178,16 @@ function ContactPage() {
         {/* Contact Details */}
         <div className="w-full lg:w-1/3 bg-mainColor2-50 text-black items-center  py-6 lg:py-16 px-8 text-center">
           <h2 className="text-3xl font-semibold">Contact Information</h2>
-          <p className="mt-4 ">📍 123 Luxury St, Paradise City, Country</p>
-          <p className="">📞 +123 456 789</p>
-          <p className="">✉️ contact@luxurystay.com</p>
+          <p className="mt-4 ">📍{hotelInfo.address}</p>
+          <p className="">📞 +84 {hotelInfo.phoneNumber}</p>
+          <p className="">✉️ contact@levi.com</p>
         </div>
 
         {/* Google Map */}
         <div className="w-full h-[60vh] lg:w-2/3 lg:h-auto">
           <iframe
             className="w-full h-full"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.835434509374!2d144.9537353153169!3d-37.81627997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577d1f0f9b1a1e3!2s123%20Luxury%20St%2C%20Paradise%20City%2C%20Country!5e0!3m2!1sen!2sus!4v1697041234567!5m2!1sen!2sus"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.508074992505!2d106.65522497451708!3d10.772344259270039!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752ec3c161a3fb%3A0xef77cd47a1cc691e!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBCw6FjaCBraG9hIC0gxJDhuqFpIGjhu41jIFF14buRYyBnaWEgVFAuSENN!5e0!3m2!1svi!2s!4v1746676686932!5m2!1svi!2s"
             allowFullScreen
             loading="lazy"
           ></iframe>
