@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import logo from '~/assets/logo.png'
 import login_image from '~/assets/login_form.jpg'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -47,17 +47,23 @@ function ResetPassword() {
 
   const navigate = useNavigate()
 
+  const [searchParams] = useSearchParams()
+  const resetToken = searchParams.get('resetToken')
+
   const onSubmit = (data) => {
-    toast.promise(resetPasswordAPI(data), {
-      loading: 'Reset in is progress...',
-      success: (res) => {
-        if (!res.error) {
-          navigate('/login')
-          return 'Reset Password Successfully!'
+    toast.promise(
+      resetPasswordAPI({ password: data.password, resetToken: resetToken }),
+      {
+        loading: 'Reset in is progress...',
+        success: (res) => {
+          if (!res.error) {
+            navigate('/login')
+            return 'Reset Password Successfully!'
+          }
+          throw res
         }
-        throw res
       }
-    })
+    )
   }
 
   return (
