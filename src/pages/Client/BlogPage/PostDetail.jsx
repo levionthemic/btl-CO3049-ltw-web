@@ -58,6 +58,15 @@ function PostDetail() {
     }
   }
 
+  // Hàm chuẩn hóa đường dẫn ảnh
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return '/images/fallback.jpg';
+    // Loại bỏ các dấu / thừa ở đầu và ký tự escape
+    const cleanPath = imagePath.replace(/^\/+/, '');
+    // Nếu đường dẫn bắt đầu bằng Uploads/, ghép với API_ROOT
+    return cleanPath.startsWith('Uploads/') ? `${API_ROOT}/${cleanPath}` : imagePath;
+  }
+
   useEffect(() => {
     setLoading(true)
     Promise.all([loadPost(), loadComments()]).finally(() =>
@@ -107,12 +116,12 @@ function PostDetail() {
       </h1>
       {post.image && (
         <img
-          src={post.image.startsWith('/uploads/') ? `${API_ROOT}${post.image}` : post.image}
+          src={getImageUrl(post.image)}
           alt={post.title}
           className="w-full h-64 object-cover rounded mb-6"
           onError={(e) => {
-            console.log('Image load error:', e.target.src)
-            e.target.src = '/images/fallback.jpg' // Fallback image
+            console.error('Image load error:', e.target.src);
+            e.target.src = '/images/fallback.jpg'; // Đảm bảo file fallback tồn tại
           }}
         />
       )}

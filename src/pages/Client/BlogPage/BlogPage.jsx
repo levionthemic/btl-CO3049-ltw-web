@@ -47,6 +47,15 @@ function BlogPage() {
     navigate(`/blog/${id}`)
   }
 
+  // Hàm chuẩn hóa đường dẫn ảnh
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return '/images/fallback.jpg';
+    // Loại bỏ các dấu / thừa ở đầu và ký tự escape
+    const cleanPath = imagePath.replace(/^\/+/, '');
+    // Nếu đường dẫn bắt đầu bằng Uploads/, ghép với API_ROOT
+    return cleanPath.startsWith('Uploads/') ? `${API_ROOT}/${cleanPath}` : imagePath;
+  }
+
   useEffect(() => {
     loadNews()
   }, [])
@@ -63,6 +72,7 @@ function BlogPage() {
           placeholder='Tìm kiếm bài viết...'
           className='border border-gray-300 rounded px-4 py-2 w-full md:w-1/2'
           value={searchTerm}
+          on Ascendingly
           onChange={handleSearch}
         />
       </div>
@@ -80,12 +90,12 @@ function BlogPage() {
               >
                 {news.image && (
                   <img
-                    src={news.image.startsWith('/uploads/') ? `${API_ROOT}${news.image}` : news.image}
+                    src={getImageUrl(news.image)}
                     alt={news.title}
                     className='w-full h-48 object-cover'
                     onError={(e) => {
-                      console.log('Image load error:', e.target.src)
-                      e.target.src = '/path/to/fallback-image.jpg' // Fallback image
+                      console.error('Image load error:', e.target.src);
+                      e.target.src = '/images/fallback.jpg'; // Đảm bảo file fallback tồn tại
                     }}
                   />
                 )}
