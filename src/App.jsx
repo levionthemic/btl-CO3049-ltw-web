@@ -18,6 +18,8 @@ import SearchPage from './pages/Client/SearchPage/SearchPage'
 import ListPage from './pages/Client/ListPage/ListPage'
 import DetailPage from './pages/Client/DetailPage/DetailPage'
 import FaqPage from './pages/Client/FaqPage/FaqPage'
+import BlogPage from './pages/Client/BlogPage/BlogPage'
+import PostDetail from '~/pages/Client/BlogPage/PostDetail'
 import { useAuth } from './contexts/AuthContext'
 import { initLogout } from '~/utils/authorizedAxios'
 
@@ -44,9 +46,10 @@ function App() {
       <Route path='/' element={<ClientLayout />}>
         <Route index element={<HomePage />} />
         <Route path='contact' element={<ContactPage />} />
-
         <Route path='about-us' element={<AboutUsPage />} />
         <Route path='faq' element={<FaqPage />} />
+        <Route path='blog' element={<BlogPage />} />
+        <Route path='blog/:id' element={<PostDetail />} />
       </Route>
 
       <Route element={<PrivateRoute user={currentUser} />}>
