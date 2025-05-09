@@ -90,17 +90,25 @@ export const getRoomDetailAPI = async (roomId) => {
 }
 
 export const bookRoomAPI = async (data) => {
-  const response = await authorizedAxiosInstance.post(`${API_ROOT}/api/rooms/booking`, data)
+  const response = await authorizedAxiosInstance.post(
+    `${API_ROOT}/api/rooms/booking`,
+    data
+  )
   return response
 }
 
 export const sendReviewRoomAPI = async (data) => {
-  const response = await authorizedAxiosInstance.post(`${API_ROOT}/api/rooms/send-review`, data)
+  const response = await authorizedAxiosInstance.post(
+    `${API_ROOT}/api/rooms/send-review`,
+    data
+  )
   return response
 }
 
 export const getAllBookingAPI = async (userId) => {
-  const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/rooms/get-booking/${userId}`)
+  const response = await authorizedAxiosInstance.get(
+    `${API_ROOT}/api/rooms/get-booking/${userId}`
+  )
   return response
 }
 /**

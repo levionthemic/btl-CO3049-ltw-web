@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { SearchIcon } from 'lucide-react'
+import { MenuIcon, SearchIcon } from 'lucide-react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import logo from '~/assets/logo.png'
 import {
@@ -25,6 +25,12 @@ import {
 import { logoutUserAPI } from '~/apis'
 import { useAuth } from '~/contexts/AuthContext'
 import { API_ROOT } from '~/utils/constants'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '~/components/ui/popover'
+import { PopoverClose } from '@radix-ui/react-popover'
 
 const menus = [
   {
@@ -83,20 +89,31 @@ function Header() {
         />
       </div>
 
-      <form action='' className='flex-1 flex justify-center'>
-        <div className='relative w-[80%]'>
-          <input
-            type='text'
-            className='!ps-9 border rounded-lg hover:border-2 !border-mainColor-600 hover:border-mainColor-600 outline-mainColor-600 w-full p-1'
-          />
-          <div className='text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-2.5 peer-disabled:opacity-50 text-mainColor-500'>
-            <SearchIcon size={16} aria-hidden='true' />
-          </div>
-        </div>
-      </form>
+      <Popover>
+        <PopoverTrigger>
+          <MenuIcon className='block md:hidden' />
+        </PopoverTrigger>
+        <PopoverContent className='flex flex-col items-center justify-center gap-4'>
+          {menus.map((menuItem) => (
+            <PopoverClose key={menuItem.id} asChild>
+              <Link
+                className={clsx(
+                  'text-sm font-medium leading-normal menu-item',
+                  {
+                    'menu-item-active': pathname === menuItem.to
+                  }
+                )}
+                to={menuItem.to}
+              >
+                {menuItem.label}
+              </Link>
+            </PopoverClose>
+          ))}
+        </PopoverContent>
+      </Popover>
 
       <div className='flex justify-end gap-8'>
-        <div className='flex items-center gap-9'>
+        <div className='hidden md:flex items-center gap-9'>
           {menus.map((menuItem) => (
             <Link
               key={menuItem.id}
@@ -109,6 +126,7 @@ function Header() {
             </Link>
           ))}
         </div>
+
         {currentUser ? (
           <DropdownMenu open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger asChild>
