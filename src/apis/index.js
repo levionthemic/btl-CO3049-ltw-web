@@ -133,59 +133,78 @@ export const updateUserAPI = async (data) => {
 }
 
 /**
- * Blog APIs
- * @author Khiem
+ * Blog APIs (RESTful)
+ * @author khiem
  */
+
+// Lấy danh sách tất cả bài viết
 export const fetchAllNewsAPI = async () => {
-  const response = await authorizedAxiosInstance.get(`${API_ROOT}/api/blog`)
-  return response
+  const res = await authorizedAxiosInstance.get(`${API_ROOT}/api/blog`)
+  return res
 }
 
+// Xem chi tiết bài viết
 export const fetchNewsDetailAPI = async (id) => {
-  const response = await authorizedAxiosInstance.get(
-    `${API_ROOT}/api/blog/${id}`
-  )
-  return response
+  const res = await authorizedAxiosInstance.get(`${API_ROOT}/api/blog/${id}`)
+  return res
 }
 
+// Tìm kiếm bài viết
 export const searchNewsAPI = async (keyword) => {
-  const response = await authorizedAxiosInstance.get(
-    `${API_ROOT}/api/blog/search`,
-    {
-      params: { keyword }
-    }
-  )
-  return response
+  const res = await authorizedAxiosInstance.get(`${API_ROOT}/api/blog/search`, {
+    params: { keyword }
+  })
+  return res
 }
 
+// Thêm bài viết
+export const createNewsAPI = async (data, showToast = true) => {
+  const res = await authorizedAxiosInstance.post(`${API_ROOT}/api/blog/create`, data)
+  if (showToast) {
+    Toast.fire({ icon: 'success', text: 'Đã thêm bài viết' })
+  }
+  return res
+}
+
+// Cập nhật bài viết
+export const updateNewsAPI = async (data, showToast = true) => {
+  const res = await authorizedAxiosInstance.put(`${API_ROOT}/api/blog/${data.id}`, data)
+  if (showToast) {
+    Toast.fire({ icon: 'success', text: 'Đã cập nhật bài viết' })
+  }
+  return res
+}
+
+// Xoá bài viết
+export const deleteNewsAPI = async (id, showToast = true) => {
+  const res = await authorizedAxiosInstance.delete(`${API_ROOT}/api/blog/${id}`)
+  if (showToast) {
+    Toast.fire({ icon: 'success', text: 'Đã xoá bài viết' })
+  }
+  return res
+}
+
+/**
+ * Comment APIs (RESTful)
+ */
+
+// Lấy bình luận theo bài viết
 export const fetchCommentsByNewsAPI = async (news_id) => {
-  const response = await authorizedAxiosInstance.get(
-    `${API_ROOT}/api/comment`,
-    {
-      params: { action: 'byNews', news_id }
-    }
-  )
-  return response
+  const res = await authorizedAxiosInstance.get(`${API_ROOT}/api/blog/${news_id}/comments`)
+  return res
 }
 
-export const createCommentAPI = async (data, showToast = true) => {
-  const response = await authorizedAxiosInstance.post(
-    `${API_ROOT}/api/comment?action=create`,
-    data
-  )
-  if (showToast) {
-    toast.success('Bình luận đã được gửi!')
-  }
-  return response
+// Thêm bình luận vào bài viết
+export const createCommentAPI = async (news_id, data) => {
+  const res = await authorizedAxiosInstance.post(`${API_ROOT}/api/blog/${news_id}/comments`, data)
+  return res
 }
 
+// Xoá bình luận theo id
 export const deleteCommentAPI = async (id, showToast = true) => {
-  const response = await authorizedAxiosInstance.post(
-    `${API_ROOT}/api/comment?action=delete`,
-    { id }
-  )
+  const res = await authorizedAxiosInstance.delete(`${API_ROOT}/api/comments/${id}`)
   if (showToast) {
-    toast.success('Đã xoá bình luận!')
+    toast.success('Đã xoá bình luận')
   }
-  return response
+  return res
 }

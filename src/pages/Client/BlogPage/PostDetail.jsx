@@ -37,16 +37,22 @@ function PostDetail() {
     if (!newComment.trim()) return
 
     try {
-      await createCommentAPI({
-        news_id: parseInt(id),
+      const res = await createCommentAPI(id, {
         user_id: 1, // tạm thời gán cứng, bạn nên lấy từ auth context
         content: newComment,
         parent_id: replyTo // null nếu là bình luận gốc
       })
-      setNewComment('')
-      setReplyTo(null)
-      loadComments()
+      console.log('API response:', res.data) // Ghi log để kiểm tra
+      if (res.data.status === 'success') {
+        setNewComment('')
+        setReplyTo(null)
+        loadComments()
+        toast.success('Đã gửi bình luận')
+      } else {
+        throw new Error('Phản hồi API không thành công')
+      }
     } catch (err) {
+      console.error('Error in handleCommentSubmit:', err)
       toast.error('Gửi bình luận thất bại')
     }
   }
@@ -86,7 +92,7 @@ function PostDetail() {
     return replies.map((reply) => (
       <div key={reply.id} className="ml-6 mt-2 border-l pl-4">
         <p className="text-sm font-medium text-mainColor-400">
-          Người dùng #{reply.user_id}
+          {reply.name || `Người dùng #${reply.user_id}`}
         </p>
         <p>{reply.content}</p>
       </div>
@@ -118,7 +124,7 @@ function PostDetail() {
         {rootComments.map((cmt) => (
           <div key={cmt.id} className="mb-4 border-b pb-2">
             <p className="font-semibold text-sm text-mainColor-400">
-              {cmt.user_name || `Người dùng #${cmt.user_id}`}
+              {cmt.name || `Người dùng #${cmt.user_id}`}
             </p>
             <p>{cmt.content}</p>
 
@@ -165,7 +171,8 @@ function PostDetail() {
         </div>
       </div>
     </div>
-  )
+  
+)
 }
 
 export default PostDetail
