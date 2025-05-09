@@ -80,9 +80,13 @@ function BlogPage() {
               >
                 {news.image && (
                   <img
-                    src={news.image}
+                    src={news.image.startsWith('/uploads/') ? `${API_ROOT}${news.image}` : news.image}
                     alt={news.title}
                     className='w-full h-48 object-cover'
+                    onError={(e) => {
+                      console.log('Image load error:', e.target.src)
+                      e.target.src = '/path/to/fallback-image.jpg' // Fallback image
+                    }}
                   />
                 )}
                 <div className='p-4'>
