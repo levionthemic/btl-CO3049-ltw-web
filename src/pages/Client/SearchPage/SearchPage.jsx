@@ -225,7 +225,7 @@ function SearchPage() {
           to your destination.
         </p>
         <div className='flex flex-col md:flex-row items-center justify-stretch gap-4 h-auto md:h-[400px]'>
-          <div className='w-full md:w-[45%] bg-mainColor-200 rounded-lg p-6 flex flex-col justify-between'>
+          <div className='w-full h-[90%] md:w-[45%] bg-mainColor-200 rounded-lg p-6 flex flex-col justify-between'>
             <div>
               <h3 className='text-2xl md:text-3xl font-bold text-mainColor-700'>
                 Backpacking Sri Lanka
