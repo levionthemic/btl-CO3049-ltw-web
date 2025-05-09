@@ -6,6 +6,7 @@ import {
   createCommentAPI
 } from '~/apis/index.js'
 import { toast } from 'sonner'
+import { API_ROOT } from '~/utils/constants'
 
 function PostDetail() {
   const { id } = useParams()
@@ -104,11 +105,17 @@ function PostDetail() {
       <h1 className="text-3xl font-bold text-mainColor-400 mb-4">
         {post.title}
       </h1>
-      <img
-        src={post.thumbnail || post.image}
-        alt={post.title}
-        className="w-full h-64 object-cover rounded mb-6"
-      />
+      {post.image && (
+        <img
+          src={post.image.startsWith('/uploads/') ? `${API_ROOT}${post.image}` : post.image}
+          alt={post.title}
+          className="w-full h-64 object-cover rounded mb-6"
+          onError={(e) => {
+            console.log('Image load error:', e.target.src)
+            e.target.src = '/images/fallback.jpg' // Fallback image
+          }}
+        />
+      )}
       <p className="text-gray-700 leading-relaxed whitespace-pre-line">
         {post.content}
       </p>
@@ -171,8 +178,7 @@ function PostDetail() {
         </div>
       </div>
     </div>
-  
-)
+  )
 }
 
 export default PostDetail
